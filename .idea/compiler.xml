@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ChineseCheckersSnake2000andmotylas" />
         <module name="Chinese Checkers Snake2000 &amp; motylas" />
       </profile>
     </annotationProcessing>
