@@ -134,6 +134,8 @@ public class Window extends JFrame implements ActionListener {
         if(circle.contains(X1, Y1)) {
           obj.x = obj.x + 2;
           System.out.println("onTile");
+          Client.action("MOVE");
+          Client.action("STOP");
           for(Tile obje: tiles) {
             System.out.println(obje.x);
           }
