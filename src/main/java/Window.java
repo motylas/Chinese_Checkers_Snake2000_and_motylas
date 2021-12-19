@@ -24,13 +24,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.JColorChooser;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-public class Window extends Frame implements ActionListener {
+public class Window extends JFrame implements ActionListener {
   private final Menu menu3;
   private final MenuItem i7;
   private final Label myLabel;
@@ -118,11 +114,11 @@ public class Window extends Frame implements ActionListener {
     }
   }
 
-  public static void main(String[] var0) {
-    Window var1 = new Window();
-    var1.setBounds(100, 100, 1280, 960);
-    var1.setVisible(true);
-  }
+//  public static void main(String[] var0) {
+//    Window var1 = new Window();
+//    var1.setBounds(100, 100, 1280, 960);
+//    var1.setVisible(true);
+//  }
 
   public class ChooseTile extends MouseAdapter {
 
@@ -156,6 +152,7 @@ public class Window extends Frame implements ActionListener {
   }
 
   public Window() {
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setTitle("Trylma");
     this.myLabel = new Label("Start", 1);
     this.myMenu = new MenuBar();
