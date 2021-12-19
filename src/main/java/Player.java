@@ -9,8 +9,9 @@ public class Player implements Runnable {
     Scanner input;
     PrintWriter output;
 
-    public Player(Socket socket) {
+    public Player(Socket socket, GameManager gm) {
         this.socket = socket;
+        gm.players.add(this);
     }
 
     @Override
@@ -38,7 +39,13 @@ public class Player implements Runnable {
         while(input.hasNextLine()){
             var command = input.nextLine();
             if(command.startsWith("QUIT")){
-
+                // TODO: 12/19/2021 make quit
+            }
+            else if (command.startsWith("MOVE")){
+                System.out.println("nastapil ruch");
+            }
+            else if (command.startsWith("STOP")){
+                System.out.println("stop");
             }
             // TODO: 12/18/2021 mechanika -> ogarnianie inputa i wywolywanie gamemanagera
         }
