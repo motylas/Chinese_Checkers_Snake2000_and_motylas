@@ -153,17 +153,19 @@ public class Window extends JFrame implements ActionListener {
 
   public Window() {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    this.setTitle("Trylma");
-    this.myLabel = new Label("Start", 1);
-    this.myMenu = new MenuBar();
-    this.menu3 = new Menu("Pomoc");
-    this.myMenu.add(this.menu3);
-    this.i7 = new MenuItem("Informacje");
-    this.i7.addActionListener(this);
-    this.menu3.add(this.i7);
-    this.setLayout(new GridLayout(1, 1));
-    this.setMenuBar(this.myMenu);
-    this.Surface();
-    this.add(this.surface);
+    setTitle("Trylma");
+    myLabel = new Label("Start", 1);
+    myMenu = new MenuBar();
+    menu3 = new Menu("Pomoc");
+    myMenu.add(this.menu3);
+    i7 = new MenuItem("Informacje");
+    i7.addActionListener(this);
+    menu3.add(this.i7);
+    setLayout(new GridLayout(1, 1));
+    setMenuBar(this.myMenu);
+    Surface();
+    add(this.surface);
+    setBounds(100, 100, 1280, 960);
+    setVisible(true);
   }
 }

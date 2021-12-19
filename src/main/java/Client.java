@@ -16,8 +16,7 @@ public class Client {
 
         // TODO: 12/19/2021 temporary tworzenie 
         Window var1 = new Window();
-        var1.setBounds(100, 100, 1280, 960);
-        var1.setVisible(true);
+
     }
 
     private void play(){
