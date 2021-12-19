@@ -13,7 +13,11 @@ public class Client {
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
 
-        // TODO: 12/18/2021 wywolanie okna
+
+        // TODO: 12/19/2021 temporary tworzenie 
+        Window var1 = new Window();
+        var1.setBounds(100, 100, 1280, 960);
+        var1.setVisible(true);
     }
 
     private void play(){
