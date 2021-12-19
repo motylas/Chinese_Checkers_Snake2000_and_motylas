@@ -22,7 +22,9 @@ public  class Client {
         String response;
         while(in.hasNextLine()){
             response = in.nextLine();
-
+            if(response.startsWith("nastapil ruch")){
+                System.out.println("ktos sie ruszyl");
+            }
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
     }
