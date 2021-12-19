@@ -7,9 +7,13 @@ public class Server {
             System.out.println("Chinese checkers server is running...");
             var pool = Executors.newFixedThreadPool(20);
             while(true){
-                GameManager gameManager = new GameManager();
-                pool.execute(new Player(listener.accept()));
-                pool.execute(new Player(listener.accept()));
+                GameManager gm = new GameManager();
+                pool.execute(new Player(listener.accept(),gm));
+                pool.execute(new Player(listener.accept(),gm));
+                pool.execute(new Player(listener.accept(),gm));
+                pool.execute(new Player(listener.accept(),gm));
+                pool.execute(new Player(listener.accept(),gm));
+                pool.execute(new Player(listener.accept(),gm));
             }
         }
     }
