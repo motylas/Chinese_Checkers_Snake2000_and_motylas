@@ -54,8 +54,9 @@ public class Window extends JFrame implements ActionListener {
       {'x','x','x','x','o','x','x','x','x','x','x','x','x','x','x','x','x'},
   };
   public ArrayList<Tile> tiles = new ArrayList();
-
+  public ArrayList<Piece> pieces = new ArrayList();
   private JDialog dialog;
+
 
   private void Surface() {
     this.surface = new JPanel() {
@@ -72,18 +73,33 @@ public class Window extends JFrame implements ActionListener {
     if(firstDraw == false){
       Graphics2D var2 = (Graphics2D)var1;
       float radius = 40f;
+      float pieceRadius = 30f;
+      int i = 8;
       for(int x = 0; x <=16; x++) {
         for(int y = 0; y <=16; y++) {
           if(board[x][y] == 'o'){
+            System.out.printf("%d   %d\n",x,y);
+            tiles.add(new Tile(x,y, false));
+
             double X = (215 +((x - (12 - y) * 0.5) * 50));
             double Y = (10 + ((y * 0.866) * 50));
             Window.this.circle = new java.awt.geom.Ellipse2D.Float((float)(X), (float)(Y), (radius), (radius));
-            System.out.printf("%d   %d\n",x,y);
-            tiles.add(new Tile(x,y, false));
             var2.draw(this.circle);
             Window.this.surface.repaint();
           }
         }
+      }
+      for(int j = 13; j <= 16; j++) {
+        for (int k = 4; k < i; k++) {
+          pieces.add(new Piece(k, j, false, 255, 0, 0));
+
+          double X = (220 + ((j - (12 - k) * 0.5) * 50));
+          double Y = (15 + ((k * 0.866) * 50));
+          Window.this.circle = new java.awt.geom.Ellipse2D.Float((float) (X), (float) (Y), (pieceRadius), (pieceRadius));
+          var2.draw(this.circle);
+          Window.this.surface.repaint();
+        }
+        i--;
       }
       firstDraw = true;
     }
@@ -92,12 +108,23 @@ public class Window extends JFrame implements ActionListener {
   private void doDrawing(Graphics var1) {
     Graphics2D var2 = (Graphics2D)var1;
     float radius = 40f;
+    float pieceRadius = 30f;
     for(Tile obj: tiles){
+
       double X = (215 +((obj.x - (12 - obj.y) * 0.5) * 50));
-          double Y = (10 + ((obj.y * 0.866) * 50));
-          Window.this.circle = new java.awt.geom.Ellipse2D.Float((float)(X), (float)(Y), (radius), (radius));
-          var2.draw(this.circle);
-          Window.this.surface.repaint();
+      double Y = (10 + ((obj.y * 0.866) * 50));
+      Window.this.circle = new java.awt.geom.Ellipse2D.Float((float)(X), (float)(Y), (radius), (radius));
+      var2.draw(this.circle);
+      Window.this.surface.repaint();
+    }
+    for(Piece obj: pieces){
+      var2.setPaint(new Color(obj.R,obj.G,obj.B));
+
+      double X = (220 +((obj.x - (12 - obj.y) * 0.5) * 50));
+      double Y = (15 + ((obj.y * 0.866) * 50));
+      Window.this.circle = new java.awt.geom.Ellipse2D.Float((float)(X), (float)(Y), (pieceRadius), (pieceRadius));
+      var2.fill(this.circle);
+      Window.this.surface.repaint();
     }
   }
 
@@ -114,11 +141,11 @@ public class Window extends JFrame implements ActionListener {
     }
   }
 
-//  public static void main(String[] var0) {
-//    Window var1 = new Window();
-//    var1.setBounds(100, 100, 1280, 960);
-//    var1.setVisible(true);
-//  }
+  public static void main(String[] var0) {
+    Window var1 = new Window();
+    var1.setBounds(100, 0, 1280, 960);
+    var1.setVisible(true);
+  }
 
   public class ChooseTile extends MouseAdapter {
 
