@@ -75,13 +75,14 @@ public class Window extends JFrame implements ActionListener {
     surface.addMouseListener(new ChooseTile());
   }
 
-  public void drawingCircle(int xOffset, int yOffset, int xPos, int yPos, float rad, Graphics2D grap){
+    public void drawingCircle(int xOffset, int yOffset, int xPos, int yPos, float rad, Graphics2D grap){
     double X = (xOffset +((xPos - (12 - yPos) * 0.5) * 50));
     double Y = (yOffset + ((yPos * 0.866) * 50));
     Window.this.circle = new java.awt.geom.Ellipse2D.Float((float)(X), (float)(Y), (rad), (rad));
     grap.draw(this.circle);
     Window.this.surface.repaint();
   }
+
   public void drawingTiles(Graphics2D grap, float radius){
     for(Tile obj: tiles){
       grap.setPaint(new Color(obj.R,obj.G,obj.B));
@@ -102,6 +103,19 @@ public class Window extends JFrame implements ActionListener {
       }
     }
   }
+
+  public void isTakenTileChecking( int a1, int a2, int c1, int c2, int c3){
+      for(Tile objec: tiles){
+        if(objec.x == a1 && objec.y == a2 && !objec.isTaken){
+          objec.isAvailable = true;
+          objec.R = c1;
+          objec.G = c2;
+          objec.B = c3;
+        }
+      }
+
+  }
+
 
   public void addingPiecesToList(int t,int j_1, int j_2, int k_1, int subs,ArrayList<Piece> pieces, Graphics2D grap, float radius,int R, int G, int B){
     int i = subs;
@@ -195,7 +209,7 @@ public class Window extends JFrame implements ActionListener {
       for(Tile obj: tiles) {
         Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (12 - obj.y) * 0.5) * 50)),
             (float)(10 + ((obj.y * 0.866) * 50)), 40f, 40f);
-        if(circle.contains(X1, Y1) && firstClick == false) {
+        if(circle.contains(X1, Y1) && !firstClick) {
           for(Piece pie: redPieces){
             if(obj.x == pie.x && obj.y == pie.y){
               for(Tile obje: tiles){
@@ -204,26 +218,43 @@ public class Window extends JFrame implements ActionListener {
                     obje.x == pie.x + 1 && obje.y == pie.y - 1 ||
                     obje.x == pie.x - 1 && obje.y == pie.y + 1 ||
                     obje.x == pie.x && obje.y == pie.y + 1||
-                    obje.x == pie.x && obje.y == pie.y - 1) && obje.isTaken == false){
+                    obje.x == pie.x && obje.y == pie.y - 1) && !obje.isTaken){
                     obje.isAvailable = true;
                     obje.R = pie.R;
                     obje.G = pie.G;
                     obje.B = pie.B;
+                }
+                if(obje.x == pie.x + 1 && obje.y == pie.y && obje.isTaken){
+                  isTakenTileChecking(pie.x + 2,pie.y,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x - 1 && obje.y == pie.y && obje.isTaken){
+                  isTakenTileChecking(pie.x - 2,pie.y,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x + 1 && obje.y == pie.y - 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x + 2,pie.y - 2,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x - 1 && obje.y == pie.y + 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x - 2,pie.y + 2,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x && obje.y == pie.y + 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x,pie.y + 2,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x && obje.y == pie.y - 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x,pie.y - 2,pie.R,pie.G,pie.B);
                 }
               }
               pie.isActive = true;
             }
           }
           firstClick = true;
-          System.out.println("onTile");
 //          Client.action("MOVE");
 //          Client.action("STOP");
         }
 
-        else if(circle.contains(X1, Y1) && firstClick == true) {
-          if(obj.isAvailable == true){
+        else if(circle.contains(X1, Y1) && firstClick) {
+          if(obj.isAvailable){
             for(Piece pie: redPieces){
-              if(pie.isActive == true){
+              if(pie.isActive){
                 pie.x = obj.x;
                 pie.y = obj.y;
                 pie.isActive = false;
@@ -231,7 +262,7 @@ public class Window extends JFrame implements ActionListener {
             }
           }
           for(Piece pie: redPieces){
-            if(pie.isActive == true){
+            if(pie.isActive){
               pie.isActive = false;
             }
           }
@@ -244,7 +275,6 @@ public class Window extends JFrame implements ActionListener {
             obje.B = 0;
           }
           firstClick = false;
-          System.out.println("onTile");
 //          Client.action("MOVE");
 //          Client.action("STOP");
         }
