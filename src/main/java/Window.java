@@ -55,6 +55,11 @@ public class Window extends JFrame implements ActionListener {
   };
   public ArrayList<Tile> tiles = new ArrayList();
   public ArrayList<Piece> redPieces = new ArrayList();
+  public ArrayList<Piece> greenPieces = new ArrayList();
+  public ArrayList<Piece> bluePieces = new ArrayList();
+  public ArrayList<Piece> yellowPieces = new ArrayList();
+  public ArrayList<Piece> purplePieces = new ArrayList();
+  public ArrayList<Piece> cyanPieces = new ArrayList();
   private JDialog dialog;
 
 
@@ -82,7 +87,12 @@ public class Window extends JFrame implements ActionListener {
       Graphics2D var2 = (Graphics2D)var1;
       float radius = 40f;
       float pieceRadius = 30f;
-      int i = 8;
+      int iR = 8;
+      int iG = 8;
+      int iB = 8;
+      int iY = 12;
+      int iP = 3;
+      int iC = 12;
       for(int x = 0; x <=16; x++) {
         for(int y = 0; y <=16; y++) {
           if(board[x][y] == 'o'){
@@ -94,12 +104,52 @@ public class Window extends JFrame implements ActionListener {
         }
       }
       for(int j = 13; j <= 16; j++) {
-        for (int k = 4; k < i; k++) {
+        for (int k = 4; k < iR; k++) {
           redPieces.add(new Piece(k, j, false, 255, 0, 0));
 
           drawingCircle(220, 15, j, k, pieceRadius, var2);
         }
-        i--;
+        iR--;
+      }
+      for(int j = 13; j <= 16; j++) {
+        for (int k = 4; k < iG; k++) {
+          greenPieces.add(new Piece(j, k, false, 0, 255, 0));
+
+          drawingCircle(220, 15, j, k, pieceRadius, var2);
+        }
+        iG--;
+      }
+      for(int j = 4; j <= 7; j++) {
+        for (int k = 4; k < iB; k++) {
+          bluePieces.add(new Piece(j, k, false, 0, 0, 255));
+
+          drawingCircle(220, 15, j, k, pieceRadius, var2);
+        }
+        iB--;
+      }
+      for(int j = 0; j <= 3; j++) {
+        for (int k = iY; k <= 12; k++) {
+          yellowPieces.add(new Piece(j, k, false, 255, 255, 0));
+
+          drawingCircle(220, 15, j, k, pieceRadius, var2);
+        }
+        iY--;
+      }
+      for(int j = 9; j <= 12; j++) {
+        for (int k = iP; k <= 3; k++) {
+          purplePieces.add(new Piece(j, k, false, 255, 0, 255));
+
+          drawingCircle(220, 15, j, k, pieceRadius, var2);
+        }
+        iP--;
+      }
+      for(int j = 9; j <= 12; j++) {
+        for (int k = iC; k <= 12; k++) {
+          cyanPieces.add(new Piece(j, k, false, 0, 255, 255));
+
+          drawingCircle(220, 15, j, k, pieceRadius, var2);
+        }
+        iC--;
       }
       firstDraw = true;
     }
@@ -115,6 +165,31 @@ public class Window extends JFrame implements ActionListener {
     }
 
     for(Piece obj: redPieces){
+      var2.setPaint(new Color(obj.R,obj.G,obj.B));
+      drawingCircle(220,15,obj.x, obj.y,pieceRadius,var2);
+      var2.fill(this.circle);
+    }
+    for(Piece obj: greenPieces){
+      var2.setPaint(new Color(obj.R,obj.G,obj.B));
+      drawingCircle(220,15,obj.x, obj.y,pieceRadius,var2);
+      var2.fill(this.circle);
+    }
+    for(Piece obj: bluePieces){
+      var2.setPaint(new Color(obj.R,obj.G,obj.B));
+      drawingCircle(220,15,obj.x, obj.y,pieceRadius,var2);
+      var2.fill(this.circle);
+    }
+    for(Piece obj: yellowPieces){
+      var2.setPaint(new Color(obj.R,obj.G,obj.B));
+      drawingCircle(220,15,obj.x, obj.y,pieceRadius,var2);
+      var2.fill(this.circle);
+    }
+    for(Piece obj: purplePieces){
+      var2.setPaint(new Color(obj.R,obj.G,obj.B));
+      drawingCircle(220,15,obj.x, obj.y,pieceRadius,var2);
+      var2.fill(this.circle);
+    }
+    for(Piece obj: cyanPieces){
       var2.setPaint(new Color(obj.R,obj.G,obj.B));
       drawingCircle(220,15,obj.x, obj.y,pieceRadius,var2);
       var2.fill(this.circle);
