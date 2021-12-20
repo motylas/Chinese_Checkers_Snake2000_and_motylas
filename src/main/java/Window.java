@@ -35,6 +35,7 @@ public class Window extends JFrame implements ActionListener {
   private JPanel surface;
   public boolean firstClick = false;
   private boolean firstDraw = false;
+  public int actual_player = 1;
   private char[][] board = {
       {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
       {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
@@ -182,13 +183,18 @@ public class Window extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent var1) {
 
     if (var1.getActionCommand().equals("Informacje")) {
-      this.dialog = new JDialog(this, "Informacje", false);
-      this.dialog.setSize(600, 240);
-      this.dialog.setLayout(new GridLayout(3, 1));
-      this.dialog.setLocationRelativeTo((Component)null);
-      JLabel var17 = new JLabel("  Nazwa: Trylma");
-      this.dialog.add(var17);
-      this.dialog.setVisible(true);
+      actual_player++;
+      if(actual_player == 7){
+        actual_player = 1;
+      }
+
+//      this.dialog = new JDialog(this, "Informacje", false);
+//      this.dialog.setSize(600, 240);
+//      this.dialog.setLayout(new GridLayout(3, 1));
+//      this.dialog.setLocationRelativeTo((Component)null);
+//      JLabel var17 = new JLabel("  Nazwa: Trylma");
+//      this.dialog.add(var17);
+//      this.dialog.setVisible(true);
     }
   }
 
@@ -206,78 +212,99 @@ public class Window extends JFrame implements ActionListener {
     public void mousePressed(MouseEvent e){
       X1 = e.getX();
       Y1 = e.getY();
-      for(Tile obj: tiles) {
-        Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (12 - obj.y) * 0.5) * 50)),
-            (float)(10 + ((obj.y * 0.866) * 50)), 40f, 40f);
-        if(circle.contains(X1, Y1) && !firstClick) {
-          for(Piece pie: redPieces){
-            if(obj.x == pie.x && obj.y == pie.y){
-              for(Tile obje: tiles){
-                if( (obje.x == pie.x + 1 && obje.y == pie.y ||
-                    obje.x == pie.x - 1 && obje.y == pie.y ||
-                    obje.x == pie.x + 1 && obje.y == pie.y - 1 ||
-                    obje.x == pie.x - 1 && obje.y == pie.y + 1 ||
-                    obje.x == pie.x && obje.y == pie.y + 1||
-                    obje.x == pie.x && obje.y == pie.y - 1) && !obje.isTaken){
-                    obje.isAvailable = true;
-                    obje.R = pie.R;
-                    obje.G = pie.G;
-                    obje.B = pie.B;
-                }
-                if(obje.x == pie.x + 1 && obje.y == pie.y && obje.isTaken){
-                  isTakenTileChecking(pie.x + 2,pie.y,pie.R,pie.G,pie.B);
-                }
-                if(obje.x == pie.x - 1 && obje.y == pie.y && obje.isTaken){
-                  isTakenTileChecking(pie.x - 2,pie.y,pie.R,pie.G,pie.B);
-                }
-                if(obje.x == pie.x + 1 && obje.y == pie.y - 1 && obje.isTaken){
-                  isTakenTileChecking(pie.x + 2,pie.y - 2,pie.R,pie.G,pie.B);
-                }
-                if(obje.x == pie.x - 1 && obje.y == pie.y + 1 && obje.isTaken){
-                  isTakenTileChecking(pie.x - 2,pie.y + 2,pie.R,pie.G,pie.B);
-                }
-                if(obje.x == pie.x && obje.y == pie.y + 1 && obje.isTaken){
-                  isTakenTileChecking(pie.x,pie.y + 2,pie.R,pie.G,pie.B);
-                }
-                if(obje.x == pie.x && obje.y == pie.y - 1 && obje.isTaken){
-                  isTakenTileChecking(pie.x,pie.y - 2,pie.R,pie.G,pie.B);
-                }
+      if(actual_player == 1){
+        playerMove(X1,Y1,redPieces);
+      }
+      else if(actual_player == 2){
+        playerMove(X1,Y1,yellowPieces);
+      }
+      else if(actual_player == 3){
+        playerMove(X1,Y1,bluePieces);
+      }
+      else if(actual_player == 4){
+        playerMove(X1,Y1,purplePieces);
+      }
+      else if(actual_player == 5){
+        playerMove(X1,Y1,greenPieces);
+      }
+      else if(actual_player == 6){
+        playerMove(X1,Y1,cyanPieces);
+      }
+    }
+  }
+
+  public void playerMove(int X1, int Y1, ArrayList<Piece> pieces){
+    for(Tile obj: tiles) {
+      Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (12 - obj.y) * 0.5) * 50)),
+          (float)(10 + ((obj.y * 0.866) * 50)), 40f, 40f);
+      if(circle.contains(X1, Y1) && !firstClick) {
+        for(Piece pie: pieces){
+          if(obj.x == pie.x && obj.y == pie.y){
+            for(Tile obje: tiles){
+              if( (obje.x == pie.x + 1 && obje.y == pie.y ||
+                  obje.x == pie.x - 1 && obje.y == pie.y ||
+                  obje.x == pie.x + 1 && obje.y == pie.y - 1 ||
+                  obje.x == pie.x - 1 && obje.y == pie.y + 1 ||
+                  obje.x == pie.x && obje.y == pie.y + 1||
+                  obje.x == pie.x && obje.y == pie.y - 1) && !obje.isTaken){
+                obje.isAvailable = true;
+                obje.R = pie.R;
+                obje.G = pie.G;
+                obje.B = pie.B;
               }
-              pie.isActive = true;
+              if(obje.x == pie.x + 1 && obje.y == pie.y && obje.isTaken){
+                isTakenTileChecking(pie.x + 2,pie.y,pie.R,pie.G,pie.B);
+              }
+              if(obje.x == pie.x - 1 && obje.y == pie.y && obje.isTaken){
+                isTakenTileChecking(pie.x - 2,pie.y,pie.R,pie.G,pie.B);
+              }
+              if(obje.x == pie.x + 1 && obje.y == pie.y - 1 && obje.isTaken){
+                isTakenTileChecking(pie.x + 2,pie.y - 2,pie.R,pie.G,pie.B);
+              }
+              if(obje.x == pie.x - 1 && obje.y == pie.y + 1 && obje.isTaken){
+                isTakenTileChecking(pie.x - 2,pie.y + 2,pie.R,pie.G,pie.B);
+              }
+              if(obje.x == pie.x && obje.y == pie.y + 1 && obje.isTaken){
+                isTakenTileChecking(pie.x,pie.y + 2,pie.R,pie.G,pie.B);
+              }
+              if(obje.x == pie.x && obje.y == pie.y - 1 && obje.isTaken){
+                isTakenTileChecking(pie.x,pie.y - 2,pie.R,pie.G,pie.B);
+              }
             }
+            pie.isActive = true;
           }
-          firstClick = true;
+        }
+        firstClick = true;
 //          Client.action("MOVE");
 //          Client.action("STOP");
-        }
+      }
 
-        else if(circle.contains(X1, Y1) && firstClick) {
-          if(obj.isAvailable){
-            for(Piece pie: redPieces){
-              if(pie.isActive){
-                pie.x = obj.x;
-                pie.y = obj.y;
-                pie.isActive = false;
-              }
-            }
-          }
-          for(Piece pie: redPieces){
+      else if(circle.contains(X1, Y1) && firstClick) {
+        if(obj.isAvailable){
+          for(Piece pie: pieces){
             if(pie.isActive){
+              pie.x = obj.x;
+              pie.y = obj.y;
               pie.isActive = false;
             }
           }
-
-          for(Tile obje: tiles){
-            obje.isAvailable = false;
-            obje.isTaken = false;
-            obje.R = 0;
-            obje.G = 0;
-            obje.B = 0;
-          }
-          firstClick = false;
-//          Client.action("MOVE");
-//          Client.action("STOP");
         }
+        for(Piece pie: pieces){
+          if(pie.isActive){
+            pie.isActive = false;
+          }
+        }
+
+        for(Tile obje: tiles){
+          obje.isAvailable = false;
+          obje.isTaken = false;
+          obje.R = 0;
+          obje.G = 0;
+          obje.B = 0;
+        }
+        firstClick = false;
+          Client.action("MOVE");
+          Client.action("STOP");
       }
     }
   }
