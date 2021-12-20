@@ -81,11 +81,24 @@ public class Window extends JFrame implements ActionListener {
     grap.draw(this.circle);
     Window.this.surface.repaint();
   }
+  public void drawingTiles(Graphics2D grap, float radius){
+    for(Tile obj: tiles){
+      grap.setPaint(new Color(obj.R,obj.G,obj.B));
+      drawingCircle(215, 10, obj.x, obj.y, radius, grap);
+      grap.draw(this.circle);
+    }
+  }
+
   public void drawingPieces(ArrayList<Piece> pieces, Graphics2D grap,float radius){
     for(Piece obj: pieces){
       grap.setPaint(new Color(obj.R,obj.G,obj.B));
       drawingCircle(220,15,obj.x, obj.y,radius,grap);
       grap.fill(this.circle);
+      for(Tile til: tiles){
+        if(obj.x == til.x && obj.y == til.y){
+          til.isTaken = true;
+        }
+      }
     }
   }
 
@@ -121,7 +134,7 @@ public class Window extends JFrame implements ActionListener {
         for(int y = 0; y <=16; y++) {
           if(board[x][y] == 'o'){
             System.out.printf("%d   %d\n",x,y);
-            tiles.add(new Tile(x,y, false));
+            tiles.add(new Tile(x,y, false, false, 0, 0, 0));
 
             drawingCircle(215, 10, x, y, radius, var2);
           }
@@ -141,9 +154,10 @@ public class Window extends JFrame implements ActionListener {
     Graphics2D var2 = (Graphics2D)var1;
     float radius = 40f;
     float pieceRadius = 30f;
-    for(Tile obj: tiles){
-      drawingCircle(215, 10, obj.x, obj.y, radius, var2);
-    }
+    drawingTiles(var2,radius);
+//    for(Tile obj: tiles){
+//      drawingCircle(215, 10, obj.x, obj.y, radius, var2);
+//    }
     drawingPieces(redPieces, var2, pieceRadius);
     drawingPieces(greenPieces, var2, pieceRadius);
     drawingPieces(bluePieces, var2, pieceRadius);
@@ -184,13 +198,28 @@ public class Window extends JFrame implements ActionListener {
         Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (12 - obj.y) * 0.5) * 50)),
             (float)(10 + ((obj.y * 0.866) * 50)), 40f, 40f);
         if(circle.contains(X1, Y1)) {
-          obj.x = obj.x + 2;
+
+
+          for(Piece pie: redPieces){
+            if(obj.x == pie.x && obj.y == pie.y){
+              for(Tile obje: tiles){
+                if( (obje.x == pie.x + 1 && obje.y == pie.y ||
+                    obje.x == pie.x - 1 && obje.y == pie.y ||
+                    obje.x == pie.x + 1 && obje.y == pie.y - 1 ||
+                    obje.x == pie.x - 1 && obje.y == pie.y + 1 ||
+                    obje.x == pie.x && obje.y == pie.y + 1||
+                    obje.x == pie.x && obje.y == pie.y - 1) && obje.isTaken == false){
+                    obje.isAvailable = true;
+                    obje.R = pie.R;
+                    obje.G = pie.G;
+                    obje.B = pie.B;
+                }
+              }
+            }
+          }
           System.out.println("onTile");
           Client.action("MOVE");
           Client.action("STOP");
-          for(Tile obje: tiles) {
-            System.out.println(obje.x);
-          }
         }
       }
     }
