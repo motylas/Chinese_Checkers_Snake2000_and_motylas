@@ -33,6 +33,7 @@ public class Window extends JFrame implements ActionListener {
   private MenuBar myMenu;
   private java.awt.geom.Ellipse2D.Float circle;
   private JPanel surface;
+  public boolean firstClick = false;
   private boolean firstDraw = false;
   private char[][] board = {
       {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
@@ -155,9 +156,6 @@ public class Window extends JFrame implements ActionListener {
     float radius = 40f;
     float pieceRadius = 30f;
     drawingTiles(var2,radius);
-//    for(Tile obj: tiles){
-//      drawingCircle(215, 10, obj.x, obj.y, radius, var2);
-//    }
     drawingPieces(redPieces, var2, pieceRadius);
     drawingPieces(greenPieces, var2, pieceRadius);
     drawingPieces(bluePieces, var2, pieceRadius);
@@ -197,9 +195,7 @@ public class Window extends JFrame implements ActionListener {
       for(Tile obj: tiles) {
         Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (12 - obj.y) * 0.5) * 50)),
             (float)(10 + ((obj.y * 0.866) * 50)), 40f, 40f);
-        if(circle.contains(X1, Y1)) {
-
-
+        if(circle.contains(X1, Y1) && firstClick == false) {
           for(Piece pie: redPieces){
             if(obj.x == pie.x && obj.y == pie.y){
               for(Tile obje: tiles){
@@ -215,11 +211,42 @@ public class Window extends JFrame implements ActionListener {
                     obje.B = pie.B;
                 }
               }
+              pie.isActive = true;
             }
           }
+          firstClick = true;
           System.out.println("onTile");
-          Client.action("MOVE");
-          Client.action("STOP");
+//          Client.action("MOVE");
+//          Client.action("STOP");
+        }
+
+        else if(circle.contains(X1, Y1) && firstClick == true) {
+          if(obj.isAvailable == true){
+            for(Piece pie: redPieces){
+              if(pie.isActive == true){
+                pie.x = obj.x;
+                pie.y = obj.y;
+                pie.isActive = false;
+              }
+            }
+          }
+          for(Piece pie: redPieces){
+            if(pie.isActive == true){
+              pie.isActive = false;
+            }
+          }
+
+          for(Tile obje: tiles){
+            obje.isAvailable = false;
+            obje.isTaken = false;
+            obje.R = 0;
+            obje.G = 0;
+            obje.B = 0;
+          }
+          firstClick = false;
+          System.out.println("onTile");
+//          Client.action("MOVE");
+//          Client.action("STOP");
         }
       }
     }
