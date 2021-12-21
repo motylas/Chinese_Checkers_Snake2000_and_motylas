@@ -7,6 +7,7 @@ public  class Client {
     private Socket socket;
     private Scanner in;
     private static PrintWriter out;
+    Window var1;
 
     public Client(String serverAddress) throws Exception {
         socket = new Socket(serverAddress, 55555);
@@ -15,15 +16,15 @@ public  class Client {
 
 
         // TODO: 12/19/2021 temporary tworzenie 
-        Window var1 = new Window();
+        var1 = new Window();
     }
 
     private void play(){
         String response;
         while(in.hasNextLine()){
             response = in.nextLine();
-            if(response.startsWith("nastapil ruch")){
-                System.out.println("ktos sie ruszyl");
+            if(response.startsWith("MOVE")){
+                var1.otherMove(response);
             }
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
@@ -31,7 +32,7 @@ public  class Client {
 
     public static void action(String action){
         if (action.startsWith("MOVE")){
-            out.println("MOVE");
+            out.println(action);
         }
         else if (action.startsWith("STOP")){
             out.println("STOP");
