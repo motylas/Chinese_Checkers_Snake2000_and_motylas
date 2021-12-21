@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.*;
@@ -119,19 +120,22 @@ public class Window extends JFrame implements ActionListener {
 
 
   public void addingPiecesToList(int t,int j_1, int j_2, int k_1, int subs,ArrayList<Piece> pieces, Graphics2D grap, float radius,int R, int G, int B){
+    int id=1;
     int i = subs;
     int type = t;
     for (int j = j_1; j <= j_2; j++) {
       if (type == 1) {
           for (int k = k_1; k <= i; k++) {
-            pieces.add(new Piece(j, k, false, R, G, B));
+            pieces.add(new Piece(id,j, k, false, R, G, B));
             drawingCircle(220, 15, j, k, radius, grap);
+            id++;
           }
           i--;
       }
       else if(type == 2){
           for (int k = i; k <= k_1; k++) {
-            pieces.add(new Piece(j, k, false, R, G, B));
+            pieces.add(new Piece(id,j, k, false, R, G, B));
+            id++;
             drawingCircle(220, 15, j, k, radius, grap);
           }
           i--;
@@ -212,6 +216,7 @@ public class Window extends JFrame implements ActionListener {
     public void mousePressed(MouseEvent e){
       X1 = e.getX();
       Y1 = e.getY();
+      // TODO: 12/21/2021 change to switch case
       if(actual_player == 1){
         playerMove(X1,Y1,redPieces);
       }
@@ -275,8 +280,6 @@ public class Window extends JFrame implements ActionListener {
           }
         }
         firstClick = true;
-//          Client.action("MOVE");
-//          Client.action("STOP");
       }
 
       else if(circle.contains(X1, Y1) && firstClick) {
@@ -286,6 +289,7 @@ public class Window extends JFrame implements ActionListener {
               pie.x = obj.x;
               pie.y = obj.y;
               pie.isActive = false;
+              Client.action("MOVE;"+pie.x+";"+pie.y+";"+pie.getID()+";"+actual_player);
             }
           }
         }
@@ -303,8 +307,39 @@ public class Window extends JFrame implements ActionListener {
           obje.B = 0;
         }
         firstClick = false;
-          Client.action("MOVE");
-          Client.action("STOP");
+      }
+    }
+  }
+
+  // TODO: 12/21/2021 make try catch
+  public void otherMove(String action){
+    String[] values = action.split(";");
+    int x = Integer.parseInt(values[1]);
+    int y = Integer.parseInt(values[2]);
+    int id = Integer.parseInt(values[3]);
+    int player = Integer.parseInt(values[4]);
+
+    switch (player){
+      case 1: changePosition(redPieces,id,x,y);
+        break;
+      case 2: changePosition(yellowPieces,id,x,y);
+        break;
+      case 3: changePosition(bluePieces,id,x,y);
+        break;
+      case 4: changePosition(purplePieces,id,x,y);
+        break;
+      case 5: changePosition(greenPieces,id,x,y);
+        break;
+      case 6: changePosition(cyanPieces,id,x,y);
+        break;
+    }
+  }
+
+  private void changePosition(ArrayList<Piece> pieces, int id, int x, int y){
+    for(Piece piece: pieces) {
+      if (piece.id == id) {
+        piece.x = x;
+        piece.y = y;
       }
     }
   }
