@@ -186,7 +186,7 @@ public class Window extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent var1) {
 
-    if (var1.getActionCommand().equals("Informacje")) {
+    if (var1.getActionCommand().equals("Nastepny Gracz")) {
       actual_player++;
       if(actual_player == 7){
         actual_player = 1;
@@ -351,7 +351,7 @@ public class Window extends JFrame implements ActionListener {
     myMenu = new MenuBar();
     menu3 = new Menu("Pomoc");
     myMenu.add(this.menu3);
-    i7 = new MenuItem("Informacje");
+    i7 = new MenuItem("Nastepny Gracz");
     i7.addActionListener(this);
     menu3.add(this.i7);
     setLayout(new GridLayout(1, 1));
