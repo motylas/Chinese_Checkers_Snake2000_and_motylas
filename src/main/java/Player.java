@@ -44,11 +44,9 @@ public class Player implements Runnable {
                 // TODO: 12/19/2021 make quit
             }
             else if (command.startsWith("MOVE")){
-                System.out.println("ruszylem sie");
-                gm.communication("nastapil ruch");
+                gm.communication(command);
             }
             else if (command.startsWith("STOP")){
-                System.out.println("stop");
             }
             // TODO: 12/18/2021 mechanika -> ogarnianie inputa i wywolywanie gamemanagera
         }
