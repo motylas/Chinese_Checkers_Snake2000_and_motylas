@@ -3,6 +3,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public  class Client {
     private Socket socket;
     private Scanner in;
@@ -10,9 +12,14 @@ public  class Client {
     Window var1;
 
     public Client(String serverAddress) throws Exception {
-        socket = new Socket(serverAddress, 55555);
-        in = new Scanner(socket.getInputStream());
-        out = new PrintWriter(socket.getOutputStream(), true);
+        try{
+            socket = new Socket(serverAddress, 55555);
+            in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (Exception e){
+            System.out.println("Blad polaczenia!");
+            exit(-1);
+        }
 
 
         // TODO: 12/19/2021 temporary tworzenie 
@@ -26,6 +33,13 @@ public  class Client {
             if(response.startsWith("MOVE")){
                 var1.otherMove(response);
             }
+            else if (response.startsWith("START")){
+                var1.setVisible(true);
+            }
+            else if (response.startsWith("LOBBY")){
+
+            }
+            System.out.println("halo123");
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
     }
