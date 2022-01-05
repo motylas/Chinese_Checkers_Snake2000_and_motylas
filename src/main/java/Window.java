@@ -36,7 +36,11 @@ public class Window extends JFrame implements ActionListener {
   private JPanel surface;
   public boolean firstClick = false;
   private boolean firstDraw = false;
+  public boolean doubleJump = false;
+  public boolean nextPlayer = false;
   public int actual_player = 1;
+  int x2 = 0;
+  int y2 = 0;
   private char[][] board = {
       {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
       {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
@@ -184,6 +188,19 @@ public class Window extends JFrame implements ActionListener {
     drawingPieces(yellowPieces, var2, pieceRadius);
     drawingPieces(purplePieces, var2, pieceRadius);
     drawingPieces(cyanPieces, var2, pieceRadius);
+    nextPlayerTurn();
+  }
+
+  public void nextPlayerTurn() {
+    if(nextPlayer) {
+      actual_player++;
+      if(actual_player == 7){
+        actual_player = 1;
+      }
+      firstClick = false;
+      doubleJump = false;
+      nextPlayer = false;
+    }
   }
 
 
@@ -194,14 +211,9 @@ public class Window extends JFrame implements ActionListener {
       if(actual_player == 7){
         actual_player = 1;
       }
-
-//      this.dialog = new JDialog(this, "Informacje", false);
-//      this.dialog.setSize(600, 240);
-//      this.dialog.setLayout(new GridLayout(3, 1));
-//      this.dialog.setLocationRelativeTo((Component)null);
-//      JLabel var17 = new JLabel("  Nazwa: Trylma");
-//      this.dialog.add(var17);
-//      this.dialog.setVisible(true);
+      firstClick = false;
+      doubleJump = false;
+      nextPlayer = false;
     }
   }
 
@@ -242,9 +254,11 @@ public class Window extends JFrame implements ActionListener {
   }
 
   public void playerMove(int X1, int Y1, ArrayList<Piece> pieces){
+
     for(Tile obj: tiles) {
       Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (12 - obj.y) * 0.5) * 50)),
           (float)(10 + ((obj.y * 0.866) * 50)), 40f, 40f);
+
       if(circle.contains(X1, Y1) && !firstClick) {
         for(Piece pie: pieces){
           if(obj.x == pie.x && obj.y == pie.y){
@@ -254,41 +268,72 @@ public class Window extends JFrame implements ActionListener {
                   obje.x == pie.x + 1 && obje.y == pie.y - 1 ||
                   obje.x == pie.x - 1 && obje.y == pie.y + 1 ||
                   obje.x == pie.x && obje.y == pie.y + 1||
-                  obje.x == pie.x && obje.y == pie.y - 1) && !obje.isTaken){
+                  obje.x == pie.x && obje.y == pie.y - 1) && !obje.isTaken && !doubleJump){
                 obje.isAvailable = true;
                 obje.R = pie.R;
                 obje.G = pie.G;
                 obje.B = pie.B;
               }
-              if(obje.x == pie.x + 1 && obje.y == pie.y && obje.isTaken){
-                isTakenTileChecking(pie.x + 2,pie.y,pie.R,pie.G,pie.B);
-              }
-              if(obje.x == pie.x - 1 && obje.y == pie.y && obje.isTaken){
-                isTakenTileChecking(pie.x - 2,pie.y,pie.R,pie.G,pie.B);
-              }
-              if(obje.x == pie.x + 1 && obje.y == pie.y - 1 && obje.isTaken){
-                isTakenTileChecking(pie.x + 2,pie.y - 2,pie.R,pie.G,pie.B);
-              }
-              if(obje.x == pie.x - 1 && obje.y == pie.y + 1 && obje.isTaken){
-                isTakenTileChecking(pie.x - 2,pie.y + 2,pie.R,pie.G,pie.B);
-              }
-              if(obje.x == pie.x && obje.y == pie.y + 1 && obje.isTaken){
-                isTakenTileChecking(pie.x,pie.y + 2,pie.R,pie.G,pie.B);
-              }
-              if(obje.x == pie.x && obje.y == pie.y - 1 && obje.isTaken){
-                isTakenTileChecking(pie.x,pie.y - 2,pie.R,pie.G,pie.B);
+              if(!doubleJump || (doubleJump && pie.x == x2 && pie.y == y2)){
+                if(obje.x == pie.x + 1 && obje.y == pie.y && obje.isTaken){
+                  isTakenTileChecking(pie.x + 2,pie.y,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x - 1 && obje.y == pie.y && obje.isTaken){
+                  isTakenTileChecking(pie.x - 2,pie.y,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x + 1 && obje.y == pie.y - 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x + 2,pie.y - 2,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x - 1 && obje.y == pie.y + 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x - 2,pie.y + 2,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x && obje.y == pie.y + 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x,pie.y + 2,pie.R,pie.G,pie.B);
+                }
+                if(obje.x == pie.x && obje.y == pie.y - 1 && obje.isTaken){
+                  isTakenTileChecking(pie.x,pie.y - 2,pie.R,pie.G,pie.B);
+                }
               }
             }
             pie.isActive = true;
+            firstClick = true;
           }
         }
-        firstClick = true;
+//        firstClick = true;
       }
+
 
       else if(circle.contains(X1, Y1) && firstClick) {
         if(obj.isAvailable){
+          for(Piece pie: pieces) {
+            if (((obj.x == pie.x + 1 && obj.y == pie.y) ||
+                (obj.x == pie.x - 1 && obj.y == pie.y) ||
+                (obj.x == pie.x + 1 && obj.y == pie.y - 1) ||
+                (obj.x == pie.x - 1 && obj.y == pie.y + 1) ||
+                (obj.x == pie.x && obj.y == pie.y + 1) ||
+                (obj.x == pie.x && obj.y == pie.y - 1)) && pie.isActive){
+                System.out.println("skok");
+                nextPlayer = true;
+            }
+            else {
+              if(pie.isActive){
+                System.out.println("jump");
+                doubleJump = true;
+                x2 = pie.x;
+                y2 = pie.y;
+              }
+
+            }
+
+          }
           for(Piece pie: pieces){
             if(pie.isActive){
+              if(pie.x == x2){
+                x2 = obj.x;
+              }
+              if(pie.y == y2){
+                y2 = obj.y;
+              }
               pie.x = obj.x;
               pie.y = obj.y;
               pie.isActive = false;
