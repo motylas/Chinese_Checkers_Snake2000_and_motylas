@@ -160,6 +160,9 @@ public class Window extends JFrame implements ActionListener {
           }
         }
       }
+      /**
+       * Z lobby/serwera funkacja switch-case'owa dodawać będzie odpowiednie pionki w zależności od ilości graczy
+       */
       addingPiecesToList(1,4,7,13,16,redPieces,var2,pieceRadius,255,0,0);
       addingPiecesToList(1,13,16,4,7,greenPieces,var2,pieceRadius,0,255,0);
       addingPiecesToList(1,4,7,4,7,bluePieces,var2,pieceRadius,0,0,255);
