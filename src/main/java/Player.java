@@ -9,11 +9,13 @@ public class Player implements Runnable {
     Scanner input;
     PrintWriter output;
     GameManager gm;
+    int id;
 
-    public Player(Socket socket, GameManager gm) {
+    public Player(Socket socket, GameManager gm, int id) {
         this.socket = socket;
         this.gm=gm;
         gm.players.add(this);
+        this.id = id;
     }
 
     @Override
@@ -33,8 +35,6 @@ public class Player implements Runnable {
     private void setup() throws IOException {
         input = new Scanner(socket.getInputStream());
         output = new PrintWriter(socket.getOutputStream(), true);
-        output.println("Welcome to the Game!");
-        output.println("Welcome to the Game! l2");
     }
 
     private void processCommands() {
@@ -50,6 +50,8 @@ public class Player implements Runnable {
             }
             // TODO: 12/18/2021 mechanika -> ogarnianie inputa i wywolywanie gamemanagera
         }
+        System.out.println("halo");
+        Server.playerLeft();
     }
 
     public void sendMessage(String message){
