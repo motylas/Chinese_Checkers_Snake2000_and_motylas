@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -11,6 +12,9 @@ public  class Client {
     private static PrintWriter out;
     static Window var1;
     Lobby lobby;
+    static int playerCount = 0;
+    static int maxPlayers = 6;
+    static boolean gameStarted = false;
 
     public Client(String serverAddress) throws Exception {
         try{
@@ -37,6 +41,7 @@ public  class Client {
             else if (response.startsWith("START")){
                 var1.setVisible(true);
                 lobby.setVisible(false);
+                gameStarted = true;
             }
             else if (response.startsWith("LOBBY")){
                 lobby = new Lobby();
@@ -48,8 +53,15 @@ public  class Client {
             }
             else if (response.startsWith("JOIN")){
                 String[] values = response.split(";");
-                int playerCount = Integer.parseInt(values[1]);
+                playerCount = Integer.parseInt(values[1]);
                 lobby.playerJoin(playerCount);
+            }
+            else if (response.startsWith("QUIT")){
+                String[] values = response.split(";");
+                int playerId = Integer.parseInt(values[1]);
+                System.out.println("Player number "+ playerId + " has left.");
+                System.out.println("Game will end.");
+                exit(2);
             }
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
@@ -57,14 +69,22 @@ public  class Client {
     }
 
     public static void action(String action){
-        if (action.startsWith("MOVE")){
+        if (action.startsWith("MOVE") || action.startsWith("STOP")){
             out.println(action);
         }
-        else if (action.startsWith("STOP")){
-            out.println("STOP");
-        }
         else if (action.startsWith("START")){
-            out.println("START");
+            System.out.println(playerCount);
+            switch (playerCount){
+                case 2:
+                case 3:
+                case 4:
+                case 6:
+                    maxPlayers = playerCount;
+                    out.println(action+";"+playerCount);
+                    break;
+                default:
+                    System.out.println("Invalid amount of players!");
+            }
         }
     }
 
