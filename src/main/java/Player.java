@@ -35,12 +35,21 @@ public class Player implements Runnable {
     private void setup() throws IOException {
         input = new Scanner(socket.getInputStream());
         output = new PrintWriter(socket.getOutputStream(), true);
+        if(id == 1){
+            output.println("HOST");
+        }
+        else{
+            output.println("LOBBY");
+        }
     }
 
     private void processCommands() {
         while(input.hasNextLine()){
             var command = input.nextLine();
-            if(command.startsWith("QUIT")){
+            if (command.startsWith("START")){
+                gm.startGame();
+            }
+            else if(command.startsWith("QUIT")){
                 // TODO: 12/19/2021 make quit
             }
             else if (command.startsWith("MOVE")){
@@ -48,9 +57,11 @@ public class Player implements Runnable {
             }
             else if (command.startsWith("STOP")){
             }
+            else if (command.startsWith("JOIN")){
+                gm.playerJoin(id);
+            }
             // TODO: 12/18/2021 mechanika -> ogarnianie inputa i wywolywanie gamemanagera
         }
-        System.out.println("halo");
         Server.playerLeft();
     }
 
