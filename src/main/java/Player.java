@@ -11,11 +11,14 @@ public class Player implements Runnable {
     GameManager gm;
     int id;
 
-    public Player(Socket socket, GameManager gm, int id) {
+    public Player(Socket socket, GameManager gm, int id, boolean gameStarted) {
         this.socket = socket;
         this.gm=gm;
         gm.players.add(this);
         this.id = id;
+//        if (gameStarted){
+//            output.println();
+//        }
     }
 
     @Override
@@ -46,23 +49,17 @@ public class Player implements Runnable {
     private void processCommands() {
         while(input.hasNextLine()){
             var command = input.nextLine();
-            if (command.startsWith("START")){
-                gm.startGame();
-            }
-            else if(command.startsWith("QUIT")){
-                // TODO: 12/19/2021 make quit
-            }
-            else if (command.startsWith("MOVE")){
+            if (command.startsWith("START") || command.startsWith("MOVE")){
                 gm.communication(command);
             }
             else if (command.startsWith("STOP")){
             }
             else if (command.startsWith("JOIN")){
-                gm.playerJoin(id);
+                gm.communication(command+";"+id);
             }
             // TODO: 12/18/2021 mechanika -> ogarnianie inputa i wywolywanie gamemanagera
         }
-        Server.playerLeft();
+        gm.communication("QUIT;"+id);
     }
 
     public void sendMessage(String message){
