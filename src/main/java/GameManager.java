@@ -8,4 +8,16 @@ public class GameManager {
             player.sendMessage(com);
         }
     }
+
+    public void playerJoin(int playerCount){
+        for (Player player : players){
+            player.sendMessage("JOIN;"+playerCount);
+        }
+    }
+
+    public void startGame(){
+        for (Player player : players){
+            player.sendMessage("START");
+        }
+    }
 }
