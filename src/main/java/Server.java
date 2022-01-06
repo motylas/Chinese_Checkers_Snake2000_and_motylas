@@ -3,7 +3,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private static int playerCount = 1;
-    private static int maxPlayers=2;
+    private static int maxPlayers=6;
 
     public static void main(String[] args) throws Exception{
         try (var listener = new ServerSocket(55555)){
@@ -13,12 +13,9 @@ public class Server {
                 GameManager gm = new GameManager();
                 while(true){
                     if(playerCount <= maxPlayers){
-                        System.out.println("siema");
                         pool.execute(new Player(listener.accept(),gm, playerCount));
                         playerCount++;
-                        System.out.println(playerCount);
                     }
-                    System.out.print("");
                 }
             }
         }
