@@ -24,10 +24,6 @@ public  class Client {
             System.out.println("Blad polaczenia!");
             exit(-1);
         }
-
-
-        // TODO: 12/19/2021 temporary tworzenie 
-        var1 = new Window();
     }
 
     private void play(){
@@ -38,6 +34,7 @@ public  class Client {
                 var1.otherMove(response);
             }
             else if (response.startsWith("START")){
+                var1 = new Window(playerCount);
                 var1.setVisible(true);
                 lobby.setVisible(false);
                 gameStarted = true;
