@@ -34,7 +34,9 @@ public  class Client {
                 var1.otherMove(response);
             }
             else if (response.startsWith("START")){
-                var1 = new Window(playerCount);
+                String[] values = response.split(";");
+                int playerId = Integer.parseInt(values[2]);
+                var1 = new Window(playerCount,playerId);
                 var1.setVisible(true);
                 lobby.setVisible(false);
                 gameStarted = true;
