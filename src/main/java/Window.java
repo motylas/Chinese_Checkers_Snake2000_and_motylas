@@ -72,6 +72,7 @@ public class Window extends JFrame implements ActionListener {
 
 
   private void Surface() {
+    JButton button = new JButton("Zakoncz ture");
     this.surface = new JPanel() {
       public void paintComponent(Graphics var1) {
         super.paintComponent(var1);
@@ -79,6 +80,10 @@ public class Window extends JFrame implements ActionListener {
         Window.this.doDrawing(var1);
       }
     };
+    surface.setLayout(null);
+
+    surface.add(button);
+    button.setBounds(960,355,150,50);
     surface.addMouseListener(new ChooseTile());
   }
 
@@ -442,7 +447,7 @@ public class Window extends JFrame implements ActionListener {
     i7 = new MenuItem("Nastepny Gracz");
     i7.addActionListener(this);
     menu3.add(this.i7);
-    setLayout(new GridLayout(1, 1));
+    setLayout(new GridLayout(1, 2));
     setMenuBar(this.myMenu);
     Surface();
     add(this.surface);
