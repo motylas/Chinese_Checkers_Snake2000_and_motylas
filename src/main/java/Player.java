@@ -12,7 +12,7 @@ public class Player implements Runnable {
     PrintWriter output;
     GameManager gm;
     int id;
-    boolean gameStarted = false;
+    boolean gameStarted;
     boolean isDead = false;
 
     public Player(Socket socket, GameManager gm, int id, boolean gameStarted) {
@@ -57,7 +57,7 @@ public class Player implements Runnable {
             var command = input.nextLine();
             if (command.startsWith("START")){
                 Server.gameStarted();
-                gm.communication(command);
+                gm.startGame(command);
             }
             else if (command.startsWith("MOVE")){
                 gm.communication(command);
@@ -76,5 +76,9 @@ public class Player implements Runnable {
 
     public void sendMessage(String message){
         output.println(message);
+    }
+
+    public int getId() {
+        return id;
     }
 }

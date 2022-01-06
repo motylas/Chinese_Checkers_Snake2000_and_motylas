@@ -69,6 +69,7 @@ public class Window extends JFrame implements ActionListener {
   public ArrayList<Piece> cyanPieces = new ArrayList();
   public int[] playerList;
   private JDialog dialog;
+  private int playerId;
 
 
   private void Surface() {
@@ -195,12 +196,6 @@ public class Window extends JFrame implements ActionListener {
             break;
         }
       }
-
-
-
-
-
-
       firstDraw = true;
     }
   }
@@ -264,7 +259,7 @@ public class Window extends JFrame implements ActionListener {
   }
 
   public static void main(String[] var0) {
-    Window var1 = new Window(2);
+    Window var1 = new Window(2, 1);
     var1.setBounds(100, 0, 1280, 960);
     var1.setVisible(true);
   }
@@ -278,23 +273,25 @@ public class Window extends JFrame implements ActionListener {
       X1 = e.getX();
       Y1 = e.getY();
       // TODO: 12/21/2021 change to switch case
-      if(actual_player == 1){
-        playerMove(X1,Y1,redPieces);
-      }
-      else if(actual_player == 2){
-        playerMove(X1,Y1,yellowPieces);
-      }
-      else if(actual_player == 3){
-        playerMove(X1,Y1,bluePieces);
-      }
-      else if(actual_player == 4){
-        playerMove(X1,Y1,purplePieces);
-      }
-      else if(actual_player == 5){
-        playerMove(X1,Y1,greenPieces);
-      }
-      else if(actual_player == 6){
-        playerMove(X1,Y1,cyanPieces);
+      if(actual_player == playerList[playerId-1]){
+        if(actual_player == 1){
+          playerMove(X1,Y1,redPieces);
+        }
+        else if(actual_player == 2){
+          playerMove(X1,Y1,yellowPieces);
+        }
+        else if(actual_player == 3){
+          playerMove(X1,Y1,bluePieces);
+        }
+        else if(actual_player == 4){
+          playerMove(X1,Y1,purplePieces);
+        }
+        else if(actual_player == 5){
+          playerMove(X1,Y1,greenPieces);
+        }
+        else if(actual_player == 6){
+          playerMove(X1,Y1,cyanPieces);
+        }
       }
     }
   }
@@ -382,7 +379,7 @@ public class Window extends JFrame implements ActionListener {
               pie.x = obj.x;
               pie.y = obj.y;
               pie.isActive = false;
-              Client.action("MOVE;"+pie.x+";"+pie.y+";"+pie.getID()+";"+actual_player);
+              Client.action("MOVE;"+pie.x+";"+pie.y+";"+pie.getID()+";"+actual_player+";"+nextPlayer);
             }
           }
         }
@@ -411,6 +408,7 @@ public class Window extends JFrame implements ActionListener {
     int y = Integer.parseInt(values[2]);
     int id = Integer.parseInt(values[3]);
     int player = Integer.parseInt(values[4]);
+    nextPlayer = Boolean.parseBoolean(values[5]);
 
     switch (player){
       case 1: changePosition(redPieces,id,x,y);
@@ -426,6 +424,7 @@ public class Window extends JFrame implements ActionListener {
       case 6: changePosition(cyanPieces,id,x,y);
         break;
     }
+    nextPlayerTurn();
   }
 
   private void changePosition(ArrayList<Piece> pieces, int id, int x, int y){
@@ -437,7 +436,7 @@ public class Window extends JFrame implements ActionListener {
     }
   }
 
-  public Window(int numberOfPlayers) {
+  public Window(int numberOfPlayers, int playerId) {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("Trylma");
     myLabel = new Label("Start", 1);
@@ -453,6 +452,7 @@ public class Window extends JFrame implements ActionListener {
     add(this.surface);
     setBounds(100, 100, 1280, 960);
     setVisible(false);
+    this.playerId = playerId;
     playerList = new int[numberOfPlayers];
     switch(numberOfPlayers){
       case 2:
