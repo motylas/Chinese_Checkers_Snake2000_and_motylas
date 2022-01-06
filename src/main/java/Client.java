@@ -13,7 +13,6 @@ public  class Client {
     static Window var1;
     Lobby lobby;
     static int playerCount = 0;
-    static int maxPlayers = 6;
     static boolean gameStarted = false;
 
     public Client(String serverAddress) throws Exception {
@@ -59,9 +58,15 @@ public  class Client {
             else if (response.startsWith("QUIT")){
                 String[] values = response.split(";");
                 int playerId = Integer.parseInt(values[1]);
-                System.out.println("Player number "+ playerId + " has left.");
-                System.out.println("Game will end.");
-                exit(2);
+                if (playerId == -1){
+                    System.out.println("Game has already started!");
+                    exit(9);
+                }
+                else {
+                    System.out.println("Player number "+ playerId + " has left.");
+                    System.out.println("Game will end.");
+                    exit(2);
+                }
             }
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
@@ -79,7 +84,6 @@ public  class Client {
                 case 3:
                 case 4:
                 case 6:
-                    maxPlayers = playerCount;
                     out.println(action+";"+playerCount);
                     break;
                 default:

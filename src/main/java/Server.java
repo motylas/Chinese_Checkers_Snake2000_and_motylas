@@ -3,7 +3,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private static int playerCount=0;
-    private static int maxPlayers=6;
+    private static int maxPlayers=2;
     static boolean gameStarted = false;
 
     public static void main(String[] args) throws Exception{
@@ -21,7 +21,7 @@ public class Server {
         }
     }
 
-    static public int getMaxPlayers(){
-        return maxPlayers;
+    static void gameStarted(){
+        gameStarted = true;
     }
 }
