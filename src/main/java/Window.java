@@ -407,6 +407,6 @@ public class Window extends JFrame implements ActionListener {
     Surface();
     add(this.surface);
     setBounds(100, 100, 1280, 960);
-    setVisible(true);
+    setVisible(false);
   }
 }
