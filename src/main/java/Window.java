@@ -67,6 +67,13 @@ public class Window extends JFrame implements ActionListener {
   public ArrayList<Piece> yellowPieces = new ArrayList();
   public ArrayList<Piece> purplePieces = new ArrayList();
   public ArrayList<Piece> cyanPieces = new ArrayList();
+  public ArrayList<Piece> redBase = new ArrayList();
+  public ArrayList<Piece> greenBase = new ArrayList();
+  public ArrayList<Piece> blueBase = new ArrayList();
+  public ArrayList<Piece> yellowBase = new ArrayList();
+  public ArrayList<Piece> purpleBase = new ArrayList();
+  public ArrayList<Piece> cyanBase = new ArrayList();
+
   public int[] playerList;
   private JDialog dialog;
 
@@ -128,6 +135,29 @@ public class Window extends JFrame implements ActionListener {
 
   }
 
+  public void creatingBase(int t, int j_1, int j_2, int k_1, int subs, ArrayList<Piece> pieces){
+    int id=1;
+    int i = subs;
+    int type = t;
+    for (int j = j_1; j <= j_2; j++) {
+      if (type == 1) {
+        for (int k = k_1; k <= i; k++) {
+          pieces.add(new Piece(id,j, k, false, 0, 0, 0));
+          id++;
+        }
+        i--;
+      }
+      else if(type == 2){
+        for (int k = i; k <= k_1; k++) {
+          pieces.add(new Piece(id,j, k, false, 0, 0, 0));
+          id++;
+        }
+        i--;
+
+      }
+    }
+  }
+
 
   public void addingPiecesToList(int t,int j_1, int j_2, int k_1, int subs,ArrayList<Piece> pieces, Graphics2D grap, float radius,int R, int G, int B){
     int id=1;
@@ -177,21 +207,27 @@ public class Window extends JFrame implements ActionListener {
         switch(playerList[i]) {
           case 1:
             addingPiecesToList(1,4,7,13,16,redPieces,var2,pieceRadius,255,0,0);
+            creatingBase(2, 9, 12, 3, 3, redBase);
             break;
           case 2:
             addingPiecesToList(2,0,3,12,12,yellowPieces,var2,pieceRadius,255,255,0);
+            creatingBase(1, 13, 16, 4, 7, yellowBase);
             break;
           case 3:
             addingPiecesToList(1,4,7,4,7,bluePieces,var2,pieceRadius,0,0,255);
+            creatingBase(2, 9, 12, 12, 12, blueBase);
             break;
           case 4:
             addingPiecesToList(2,9,12,3,3,purplePieces,var2,pieceRadius,255,0,255);
+            creatingBase(1, 4, 7, 13, 16, purpleBase);
             break;
           case 5:
             addingPiecesToList(1,13,16,4,7,greenPieces,var2,pieceRadius,0,255,0);
+            creatingBase(2, 0, 3, 12, 12, greenBase);
             break;
           case 6:
             addingPiecesToList(2,9,12,12,12,cyanPieces,var2,pieceRadius,0,255,255);
+            creatingBase(1, 4, 7, 4, 7, cyanBase);
             break;
         }
       }
@@ -232,10 +268,6 @@ public class Window extends JFrame implements ActionListener {
           break;
         }
       }
-//      actual_player++;
-//      if(actual_player == 7){
-//        actual_player = 1;
-//      }
       firstClick = false;
       doubleJump = false;
       nextPlayer = false;
