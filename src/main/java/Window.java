@@ -67,6 +67,7 @@ public class Window extends JFrame implements ActionListener {
   public ArrayList<Piece> yellowPieces = new ArrayList();
   public ArrayList<Piece> purplePieces = new ArrayList();
   public ArrayList<Piece> cyanPieces = new ArrayList();
+  public int[] playerList;
   private JDialog dialog;
 
 
@@ -167,12 +168,34 @@ public class Window extends JFrame implements ActionListener {
       /**
        * Z lobby/serwera funkacja switch-case'owa dodawać będzie odpowiednie pionki w zależności od ilości graczy
        */
-      addingPiecesToList(1,4,7,13,16,redPieces,var2,pieceRadius,255,0,0);
-      addingPiecesToList(1,13,16,4,7,greenPieces,var2,pieceRadius,0,255,0);
-      addingPiecesToList(1,4,7,4,7,bluePieces,var2,pieceRadius,0,0,255);
-      addingPiecesToList(2,0,3,12,12,yellowPieces,var2,pieceRadius,255,255,0);
-      addingPiecesToList(2,9,12,3,3,purplePieces,var2,pieceRadius,255,0,255);
-      addingPiecesToList(2,9,12,12,12,cyanPieces,var2,pieceRadius,0,255,255);
+      for(int i = 0; i < playerList.length; i++) {
+        switch(playerList[i]) {
+          case 1:
+            addingPiecesToList(1,4,7,13,16,redPieces,var2,pieceRadius,255,0,0);
+            break;
+          case 2:
+            addingPiecesToList(2,0,3,12,12,yellowPieces,var2,pieceRadius,255,255,0);
+            break;
+          case 3:
+            addingPiecesToList(1,4,7,4,7,bluePieces,var2,pieceRadius,0,0,255);
+            break;
+          case 4:
+            addingPiecesToList(2,9,12,3,3,purplePieces,var2,pieceRadius,255,0,255);
+            break;
+          case 5:
+            addingPiecesToList(1,13,16,4,7,greenPieces,var2,pieceRadius,0,255,0);
+            break;
+          case 6:
+            addingPiecesToList(2,9,12,12,12,cyanPieces,var2,pieceRadius,0,255,255);
+            break;
+        }
+      }
+
+
+
+
+
+
       firstDraw = true;
     }
   }
@@ -193,10 +216,21 @@ public class Window extends JFrame implements ActionListener {
 
   public void nextPlayerTurn() {
     if(nextPlayer) {
-      actual_player++;
-      if(actual_player == 7){
-        actual_player = 1;
+      for(int i = 0; i < playerList.length; i++){
+        if(actual_player == playerList[i]) {
+          if(i == (playerList.length - 1)){
+            actual_player = playerList[0];
+          }
+          else{
+            actual_player = playerList[i+1];
+          }
+          break;
+        }
       }
+//      actual_player++;
+//      if(actual_player == 7){
+//        actual_player = 1;
+//      }
       firstClick = false;
       doubleJump = false;
       nextPlayer = false;
@@ -207,9 +241,16 @@ public class Window extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent var1) {
 
     if (var1.getActionCommand().equals("Nastepny Gracz")) {
-      actual_player++;
-      if(actual_player == 7){
-        actual_player = 1;
+      for(int i = 0; i < playerList.length; i++){
+        if(actual_player == playerList[i]) {
+          if(i == (playerList.length - 1)){
+            actual_player = playerList[0];
+          }
+          else{
+            actual_player = playerList[i+1];
+          }
+          break;
+        }
       }
       firstClick = false;
       doubleJump = false;
@@ -218,7 +259,7 @@ public class Window extends JFrame implements ActionListener {
   }
 
   public static void main(String[] var0) {
-    Window var1 = new Window();
+    Window var1 = new Window(2);
     var1.setBounds(100, 0, 1280, 960);
     var1.setVisible(true);
   }
@@ -299,7 +340,6 @@ public class Window extends JFrame implements ActionListener {
             firstClick = true;
           }
         }
-//        firstClick = true;
       }
 
 
@@ -392,7 +432,7 @@ public class Window extends JFrame implements ActionListener {
     }
   }
 
-  public Window() {
+  public Window(int numberOfPlayers) {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("Trylma");
     myLabel = new Label("Start", 1);
@@ -408,5 +448,31 @@ public class Window extends JFrame implements ActionListener {
     add(this.surface);
     setBounds(100, 100, 1280, 960);
     setVisible(false);
+    playerList = new int[numberOfPlayers];
+    switch(numberOfPlayers){
+      case 2:
+        playerList[0] = 1;
+        playerList[1] = 4;
+        break;
+      case 3:
+        playerList[0] = 1;
+        playerList[1] = 3;
+        playerList[2] = 5;
+        break;
+      case 4:
+        playerList[0] = 2;
+        playerList[1] = 3;
+        playerList[2] = 5;
+        playerList[3] = 6;
+        break;
+      case 6:
+        playerList[0] = 1;
+        playerList[1] = 2;
+        playerList[2] = 3;
+        playerList[3] = 4;
+        playerList[4] = 5;
+        playerList[5] = 6;
+        break;
+    }
   }
 }
