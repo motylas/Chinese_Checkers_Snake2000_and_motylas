@@ -9,6 +9,7 @@ public class GameManager {
     boolean nextPlayer = true;
     int x2 = 0;
     int y2 = 0;
+    int piecesInBase = 0;
     ArrayList<Player> players = new ArrayList();
     ArrayList<Tile> tiles = new ArrayList();
     ArrayList<Piece> redPieces = new ArrayList();
@@ -159,6 +160,17 @@ public class GameManager {
                         communication("MOVE;"+pie.x+";"+pie.y+";"+pie.getID()+";"+currentPlayerNumber+";"+nextPlayer);
                     }
                 }
+            }
+            piecesInBase = 0;
+            for(Piece pie: pieces){
+                for(Piece bas: base){
+                    if(pie.x == bas.x && pie.y == bas.y){
+                        piecesInBase ++;
+                    }
+                }
+            }
+            if(piecesInBase == 10){
+                System.out.println("Winning");
             }
             turnEnd(currentPlayer, pieces);
         }
