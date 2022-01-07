@@ -17,6 +17,13 @@ public class GameManager {
     ArrayList<Piece> yellowPieces = new ArrayList();
     ArrayList<Piece> purplePieces = new ArrayList();
     ArrayList<Piece> cyanPieces = new ArrayList();
+    ArrayList<Piece> redBase = new ArrayList();
+    ArrayList<Piece> greenBase = new ArrayList();
+    ArrayList<Piece> blueBase = new ArrayList();
+    ArrayList<Piece> yellowBase = new ArrayList();
+    ArrayList<Piece> purpleBase = new ArrayList();
+    ArrayList<Piece> cyanBase = new ArrayList();
+
     int[] playerList;
     private char[][] board = {
             {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
@@ -271,27 +278,27 @@ public class GameManager {
             switch(playerList[i]) {
                 case 1:
                     addingPiecesToList(1,4,7,13,16,redPieces,255,0,0);
-                    //creatingBase(2, 9, 12, 3, 3, redBase);
+                    creatingBase(2, 9, 12, 3, 3, redBase);
                     break;
                 case 2:
                     addingPiecesToList(2,0,3,12,12,yellowPieces,255,255,0);
-                    //creatingBase(1, 13, 16, 4, 7, yellowBase);
+                    creatingBase(1, 13, 16, 4, 7, yellowBase);
                     break;
                 case 3:
                     addingPiecesToList(1,4,7,4,7,bluePieces,0,0,255);
-                    //creatingBase(2, 9, 12, 12, 12, blueBase);
+                    creatingBase(2, 9, 12, 12, 12, blueBase);
                     break;
                 case 4:
                     addingPiecesToList(2,9,12,3,3,purplePieces,255,0,255);
-                    //creatingBase(1, 4, 7, 13, 16, purpleBase);
+                    creatingBase(1, 4, 7, 13, 16, purpleBase);
                     break;
                 case 5:
                     addingPiecesToList(1,13,16,4,7,greenPieces,0,255,0);
-                    //creatingBase(2, 0, 3, 12, 12, greenBase);
+                    creatingBase(2, 0, 3, 12, 12, greenBase);
                     break;
                 case 6:
                     addingPiecesToList(2,9,12,12,12,cyanPieces,0,255,255);
-                    //creatingBase(1, 4, 7, 4, 7, cyanBase);
+                    creatingBase(1, 4, 7, 4, 7, cyanBase);
                     break;
             }
         }
@@ -313,6 +320,27 @@ public class GameManager {
             else if(type == 2){
                 for (int k = i; k <= k_1; k++) {
                     pieces.add(new Piece(id,j, k, false, R, G, B));
+                    id++;
+                }
+                i--;
+            }
+        }
+    }
+    private void creatingBase(int t, int j_1, int j_2, int k_1, int subs, ArrayList<Piece> pieces){
+        int id=1;
+        int i = subs;
+        int type = t;
+        for (int j = j_1; j <= j_2; j++) {
+            if (type == 1) {
+                for (int k = k_1; k <= i; k++) {
+                    pieces.add(new Piece(id,j, k, false, 0, 0, 0));
+                    id++;
+                }
+                i--;
+            }
+            else if(type == 2){
+                for (int k = i; k <= k_1; k++) {
+                    pieces.add(new Piece(id,j, k, false, 0, 0, 0));
                     id++;
                 }
                 i--;
