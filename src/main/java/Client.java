@@ -67,6 +67,9 @@ public  class Client {
                     exit(2);
                 }
             }
+            else if (response.startsWith("COLOR")){
+                var1.colorTile(response);
+            }
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
         exit(-1);
@@ -77,7 +80,6 @@ public  class Client {
             out.println(action);
         }
         else if (action.startsWith("START")){
-            System.out.println(playerCount);
             switch (playerCount){
                 case 2:
                 case 3:
@@ -88,6 +90,9 @@ public  class Client {
                 default:
                     System.out.println("Invalid amount of players!");
             }
+        }
+        else if(action.startsWith("TRY")){
+            out.println(action);
         }
     }
 
