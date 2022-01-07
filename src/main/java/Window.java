@@ -80,6 +80,11 @@ public class Window extends JFrame implements ActionListener {
 
   private void Surface() {
     JButton button = new JButton("Zakoncz ture");
+    button.addActionListener(e -> {
+      if(actual_player == playerList[playerId-1]) {
+        Client.action("NEXT;"+actual_player);
+      }
+    });
     this.surface = new JPanel() {
       public void paintComponent(Graphics var1) {
         super.paintComponent(var1);
@@ -117,17 +122,6 @@ public class Window extends JFrame implements ActionListener {
       grap.fill(this.circle);
       }
     }
-
-  public void isTakenTileChecking( int a1, int a2, int c1, int c2, int c3){
-      for(Tile objec: tiles){
-        if(objec.x == a1 && objec.y == a2 && !objec.isTaken){
-          objec.isAvailable = true;
-          objec.R = c1;
-          objec.G = c2;
-          objec.B = c3;
-        }
-      }
-  }
 
   public void creatingBase(int t, int j_1, int j_2, int k_1, int subs, ArrayList<Piece> pieces){
     int id=1;

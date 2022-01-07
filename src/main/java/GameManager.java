@@ -50,29 +50,9 @@ public class GameManager {
         int clickedY = Integer.parseInt(values[2]);
         int currentPlayerNumber = Integer.parseInt(values[3]);
         boolean firstClick = Boolean.parseBoolean(values[4]);
-        ArrayList<Piece> pieces = new ArrayList<>();
+        ArrayList<Piece> pieces = getCurrentPlayerPieces(currentPlayerNumber);
         Piece currentPiece = null;
         Tile currentTile = null;
-        switch (currentPlayerNumber) {
-            case 1 -> {
-                pieces = redPieces;
-            }
-            case 2 -> {
-                pieces = yellowPieces;
-            }
-            case 3 -> {
-                pieces = bluePieces;
-            }
-            case 4 -> {
-                pieces = purplePieces;
-            }
-            case 5 -> {
-                pieces = greenPieces;
-            }
-            case 6 -> {
-                pieces = cyanPieces;
-            }
-        }
         if(mess.startsWith("TRY1")){
             for (Piece piece: pieces) {
                 if (piece.x == clickedX && piece.y == clickedY) {
@@ -156,23 +136,60 @@ public class GameManager {
                     }
                 }
             }
-            for(Piece pie: pieces){
-                if(pie.isActive){
-                    pie.isActive = false;
-                }
-            }
-
-            for(Tile obje: tiles){
-                obje.isAvailable = false;
-                obje.isTaken = false;
-                currentPlayer.sendMessage("COLOR;"+obje.x+";"+obje.y+";"+0+";"+0+";"+0);
-            }
-            checkTakenTiles();
-            if(nextPlayer){
-                doubleJump = false;
-            }
-            nextPlayer = false;
+            turnEnd(currentPlayer, pieces);
         }
+    }
+
+    public void nextTurn(String mess, Player currentPlayer){
+        String[] values = mess.split(";");
+        int currentPlayerNumber = Integer.parseInt(values[1]);
+        ArrayList<Piece> pieces = getCurrentPlayerPieces(currentPlayerNumber);
+        nextPlayer = true;
+        turnEnd(currentPlayer, pieces);
+        communication("NEXT");
+    }
+
+    private ArrayList<Piece> getCurrentPlayerPieces(int currentPlayerNumber){
+        switch (currentPlayerNumber) {
+            case 1 -> {
+                return redPieces;
+            }
+            case 2 -> {
+                return yellowPieces;
+            }
+            case 3 -> {
+                return bluePieces;
+            }
+            case 4 -> {
+                return purplePieces;
+            }
+            case 5 -> {
+                return greenPieces;
+            }
+            case 6 -> {
+                return cyanPieces;
+            }
+        }
+        return null;
+    }
+
+    private void turnEnd(Player currentPlayer, ArrayList<Piece> pieces) {
+        for(Piece pie: pieces){
+            if(pie.isActive){
+                pie.isActive = false;
+            }
+        }
+
+        for(Tile obje: tiles){
+            obje.isAvailable = false;
+            obje.isTaken = false;
+            currentPlayer.sendMessage("COLOR;"+obje.x+";"+obje.y+";"+0+";"+0+";"+0);
+        }
+        checkTakenTiles();
+        if(nextPlayer){
+            doubleJump = false;
+        }
+        nextPlayer = false;
     }
 
     private void isTakenTileChecking( int a1, int a2, int c1, int c2, int c3, Player currentPlayer, Piece currentPiece){

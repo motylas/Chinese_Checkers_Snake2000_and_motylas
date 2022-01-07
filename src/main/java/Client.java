@@ -70,13 +70,17 @@ public  class Client {
             else if (response.startsWith("COLOR")){
                 var1.colorTile(response);
             }
+            else if (response.startsWith("NEXT")){
+                var1.nextPlayerTurn();
+
+            }
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
         exit(-1);
     }
 
     public static void action(String action){
-        if (action.startsWith("MOVE") || action.startsWith("STOP")){
+        if (action.startsWith("MOVE") || action.startsWith("STOP") || action.startsWith("TRY") || action.startsWith("NEXT")){
             out.println(action);
         }
         else if (action.startsWith("START")){
@@ -90,9 +94,6 @@ public  class Client {
                 default:
                     System.out.println("Invalid amount of players!");
             }
-        }
-        else if(action.startsWith("TRY")){
-            out.println(action);
         }
     }
 

@@ -62,13 +62,14 @@ public class Player implements Runnable {
             else if (command.startsWith("MOVE")){
                 gm.communication(command);
             }
-            else if (command.startsWith("STOP")){
-            }
             else if (command.startsWith("JOIN")){
                 gm.communication(command+";"+id);
             }
             else if (command.startsWith("TRY")){
                 gm.moveHandler(command, this);
+            }
+            else if(command.startsWith("NEXT")){
+                gm.nextTurn(command, this);
             }
             // TODO: 12/18/2021 mechanika -> ogarnianie inputa i wywolywanie gamemanagera
         }
