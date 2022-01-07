@@ -40,25 +40,27 @@ public class Window extends JFrame implements ActionListener {
   public int actual_player = 1;
   int x2 = 0;
   int y2 = 0;
-  private char[][] board = {
-      {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
-      {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
-      {'x','x','x','x','x','x','x','x','x','x','o','o','o','x','x','x','x'},
-      {'x','x','x','x','x','x','x','x','x','o','o','o','o','x','x','x','x'},
-      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','o'},
-      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','x'},
-      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','x','x'},
-      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x'},
-      {'x','x','x','x','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-      {'x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-      {'x','x','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-      {'x','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-      {'o','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-      {'x','x','x','x','o','o','o','o','x','x','x','x','x','x','x','x','x'},
-      {'x','x','x','x','o','o','o','x','x','x','x','x','x','x','x','x','x'},
-      {'x','x','x','x','o','o','x','x','x','x','x','x','x','x','x','x','x'},
-      {'x','x','x','x','o','x','x','x','x','x','x','x','x','x','x','x','x'},
-  };
+  int boardSize = 5;
+//  private char[][] board = {
+//      {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
+//      {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
+//      {'x','x','x','x','x','x','x','x','x','x','o','o','o','x','x','x','x'},
+//      {'x','x','x','x','x','x','x','x','x','o','o','o','o','x','x','x','x'},
+//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','o'},
+//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','x'},
+//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','x','x'},
+//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x'},
+//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//      {'x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//      {'x','x','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//      {'x','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//      {'o','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//      {'x','x','x','x','o','o','o','o','x','x','x','x','x','x','x','x','x'},
+//      {'x','x','x','x','o','o','o','x','x','x','x','x','x','x','x','x','x'},
+//      {'x','x','x','x','o','o','x','x','x','x','x','x','x','x','x','x','x'},
+//      {'x','x','x','x','o','x','x','x','x','x','x','x','x','x','x','x','x'},
+//  };
+  private char[][] board = new char[4*boardSize + 1][4*boardSize + 1];
   public ArrayList<Tile> tiles = new ArrayList();
   public ArrayList<Piece> redPieces = new ArrayList();
   public ArrayList<Piece> greenPieces = new ArrayList();
@@ -177,43 +179,99 @@ public class Window extends JFrame implements ActionListener {
       Graphics2D var2 = (Graphics2D)var1;
       float radius = 40f;
       float pieceRadius = 30f;
-      for(int x = 0; x <=16; x++) {
-        for(int y = 0; y <=16; y++) {
+      int k = 0;
+
+      for(int i = 0; i <= 4*boardSize; i++) {
+        for(int j = 0; j <= 4*boardSize; j++){
+          board[i][j] = 'x';
+        }
+      }
+
+      for(int i = boardSize; i<= 3*boardSize; i++) {
+        for(int j =boardSize; j <= 3*boardSize; j++){
+          board[i][j] = 'o';
+        }
+      }
+
+      k = 4*boardSize;
+      for(int i = boardSize; i <= 2*boardSize - 1; i++){
+        for(int j = 3*boardSize + 1; j <= k; j++) {
+          board[i][j] = 'o';
+        }
+        k--;
+      }
+
+      k = boardSize -1;
+      for(int i = 2*boardSize + 1; i <= 3*boardSize; i++){
+        for(int j = k; j <= boardSize - 1; j++){
+          board[i][j] = 'o';
+        }
+        k--;
+      }
+
+      k = 3*boardSize;
+      for(int i = 0; i <= boardSize - 1; i++) {
+        for(int j = k; j <= 3*boardSize; j++) {
+          board[i][j] ='o';
+        }
+        k--;
+      }
+
+      k = 2*boardSize - 1;
+      for(int i = 3*boardSize + 1; i <= 4*boardSize; i++) {
+        for(int j = boardSize; j <= k; j++) {
+          board[i][j] = 'o';
+        }
+        k--;
+      }
+
+
+
+      for(int x = 0; x <=4 * boardSize; x++) {
+        for(int y = 0; y <= 4 * boardSize; y++) {
           if(board[x][y] == 'o'){
             tiles.add(new Tile(x,y, false, false, 0, 0, 0));
-
             drawingCircle(215, 10, x, y, radius, var2);
           }
         }
       }
+//      for(int x = 0; x <=16; x++) {
+//        for(int y = 0; y <=16; y++) {
+//          if(board[x][y] == 'o'){
+//            tiles.add(new Tile(x,y, false, false, 0, 0, 0));
+//
+//            drawingCircle(215, 10, x, y, radius, var2);
+//          }
+//        }
+//      }
       /**
        * Z lobby/serwera funkacja switch-case'owa dodawać będzie odpowiednie pionki w zależności od ilości graczy
        */
       for(int i = 0; i < playerList.length; i++) {
         switch(playerList[i]) {
           case 1:
-            addingPiecesToList(1,4,7,13,16,redPieces,var2,pieceRadius,255,0,0);
-            creatingBase(2, 9, 12, 3, 3, redBase);
+            addingPiecesToList(1,boardSize,2*boardSize - 1,3*boardSize + 1,4*boardSize,redPieces,var2,pieceRadius,255,0,0);
+            creatingBase(2, 2*boardSize + 1, 3*boardSize, boardSize - 1, boardSize - 1, redBase);
             break;
           case 2:
-            addingPiecesToList(2,0,3,12,12,yellowPieces,var2,pieceRadius,255,255,0);
-            creatingBase(1, 13, 16, 4, 7, yellowBase);
+            addingPiecesToList(2,0,boardSize - 1,3*boardSize,3*boardSize,yellowPieces,var2,pieceRadius,255,255,0);
+            creatingBase(1, 3*boardSize +1, 4*boardSize, boardSize, 2*boardSize - 1, yellowBase);
             break;
           case 3:
-            addingPiecesToList(1,4,7,4,7,bluePieces,var2,pieceRadius,0,0,255);
-            creatingBase(2, 9, 12, 12, 12, blueBase);
+            addingPiecesToList(1,boardSize,2*boardSize -1,boardSize,2*boardSize - 1,bluePieces,var2,pieceRadius,0,0,255);
+            creatingBase(2, 2*boardSize + 1, 3*boardSize, 3*boardSize, 3*boardSize, blueBase);
             break;
           case 4:
-            addingPiecesToList(2,9,12,3,3,purplePieces,var2,pieceRadius,255,0,255);
-            creatingBase(1, 4, 7, 13, 16, purpleBase);
+            addingPiecesToList(2,2*boardSize + 1,3*boardSize,boardSize - 1,boardSize - 1,purplePieces,var2,pieceRadius,255,0,255);
+            creatingBase(1, boardSize, 2*boardSize - 1, 3*boardSize + 1, 4*boardSize, purpleBase);
             break;
           case 5:
-            addingPiecesToList(1,13,16,4,7,greenPieces,var2,pieceRadius,0,255,0);
-            creatingBase(2, 0, 3, 12, 12, greenBase);
+            addingPiecesToList(1,3*boardSize + 1,4*boardSize,boardSize,2*boardSize - 1,greenPieces,var2,pieceRadius,0,255,0);
+            creatingBase(2, 0, boardSize - 1, 3*boardSize, 3*boardSize, greenBase);
             break;
           case 6:
-            addingPiecesToList(2,9,12,12,12,cyanPieces,var2,pieceRadius,0,255,255);
-            creatingBase(1, 4, 7, 4, 7, cyanBase);
+            addingPiecesToList(2,2*boardSize + 1,3*boardSize,3*boardSize,3*boardSize,cyanPieces,var2,pieceRadius,0,255,255);
+            creatingBase(1, boardSize, 2*boardSize - 1, boardSize, 2*boardSize - 1, cyanBase);
             break;
         }
       }
