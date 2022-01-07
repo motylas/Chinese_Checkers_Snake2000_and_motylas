@@ -9,6 +9,7 @@ public class GameManager {
     boolean nextPlayer = true;
     int x2 = 0;
     int y2 = 0;
+    int boardSize = 3;
     int piecesInBase = 0;
     ArrayList<Player> players = new ArrayList();
     ArrayList<Tile> tiles = new ArrayList();
@@ -24,27 +25,27 @@ public class GameManager {
     ArrayList<Piece> yellowBase = new ArrayList();
     ArrayList<Piece> purpleBase = new ArrayList();
     ArrayList<Piece> cyanBase = new ArrayList();
-
     int[] playerList;
-    private char[][] board = {
-            {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
-            {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
-            {'x','x','x','x','x','x','x','x','x','x','o','o','o','x','x','x','x'},
-            {'x','x','x','x','x','x','x','x','x','o','o','o','o','x','x','x','x'},
-            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','o'},
-            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','x'},
-            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','x','x'},
-            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x'},
-            {'x','x','x','x','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-            {'x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-            {'x','x','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-            {'x','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-            {'o','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-            {'x','x','x','x','o','o','o','o','x','x','x','x','x','x','x','x','x'},
-            {'x','x','x','x','o','o','o','x','x','x','x','x','x','x','x','x','x'},
-            {'x','x','x','x','o','o','x','x','x','x','x','x','x','x','x','x','x'},
-            {'x','x','x','x','o','x','x','x','x','x','x','x','x','x','x','x','x'},
-    };
+//    private char[][] board = {
+//            {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
+//            {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
+//            {'x','x','x','x','x','x','x','x','x','x','o','o','o','x','x','x','x'},
+//            {'x','x','x','x','x','x','x','x','x','o','o','o','o','x','x','x','x'},
+//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','o'},
+//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','x'},
+//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','x','x'},
+//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x'},
+//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//            {'x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//            {'x','x','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//            {'x','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//            {'o','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
+//            {'x','x','x','x','o','o','o','o','x','x','x','x','x','x','x','x','x'},
+//            {'x','x','x','x','o','o','o','x','x','x','x','x','x','x','x','x','x'},
+//            {'x','x','x','x','o','o','x','x','x','x','x','x','x','x','x','x','x'},
+//            {'x','x','x','x','o','x','x','x','x','x','x','x','x','x','x','x','x'},
+//    };
+    private char[][] board = new char[4*boardSize + 1][4*boardSize + 1];
 
     public void communication(String com){
         for (Player player: players) {
@@ -294,8 +295,56 @@ public class GameManager {
     }
 
     private void prepareVirtualBoard(int numberOfPlayers) {
-        for(int x = 0; x <=16; x++) {
-            for(int y = 0; y <=16; y++) {
+        int k = 0;
+
+        for(int i = 0; i <= 4*boardSize; i++) {
+            for(int j = 0; j <= 4*boardSize; j++){
+                board[i][j] = 'x';
+            }
+        }
+
+        for(int i = boardSize; i<= 3*boardSize; i++) {
+            for(int j =boardSize; j <= 3*boardSize; j++){
+                board[i][j] = 'o';
+            }
+        }
+
+        k = 4*boardSize;
+        for(int i = boardSize; i <= 2*boardSize - 1; i++){
+            for(int j = 3*boardSize + 1; j <= k; j++) {
+                board[i][j] = 'o';
+            }
+            k--;
+        }
+
+        k = boardSize -1;
+        for(int i = 2*boardSize + 1; i <= 3*boardSize; i++){
+            for(int j = k; j <= boardSize - 1; j++){
+                board[i][j] = 'o';
+            }
+            k--;
+        }
+
+        k = 3*boardSize;
+        for(int i = 0; i <= boardSize - 1; i++) {
+            for(int j = k; j <= 3*boardSize; j++) {
+                board[i][j] ='o';
+            }
+            k--;
+        }
+
+        k = 2*boardSize - 1;
+        for(int i = 3*boardSize + 1; i <= 4*boardSize; i++) {
+            for(int j = boardSize; j <= k; j++) {
+                board[i][j] = 'o';
+            }
+            k--;
+        }
+
+
+
+        for(int x = 0; x <=4 * boardSize; x++) {
+            for(int y = 0; y <= 4 * boardSize; y++) {
                 if(board[x][y] == 'o'){
                     tiles.add(new Tile(x,y, false, false, 0, 0, 0));
                 }
