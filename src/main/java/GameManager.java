@@ -58,6 +58,7 @@ public class GameManager {
         int currentPlayerNumber = Integer.parseInt(values[3]);
         boolean firstClick = Boolean.parseBoolean(values[4]);
         ArrayList<Piece> pieces = getCurrentPlayerPieces(currentPlayerNumber);
+        ArrayList<Piece> base = getCurrentPlayerEndBase(currentPlayerNumber);
         Piece currentPiece = null;
         Tile currentTile = null;
         if(mess.startsWith("TRY1")){
@@ -103,6 +104,22 @@ public class GameManager {
                     }
                     if(obje.x == currentPiece.x && obje.y == currentPiece.y - 1 && obje.isTaken){
                         isTakenTileChecking(currentPiece.x,currentPiece.y - 2,currentPiece.R,currentPiece.G,currentPiece.B, currentPlayer, currentPiece);
+                    }
+                }
+                for(Piece bas1: base){
+                    if(currentPiece.x == bas1.x && currentPiece.y == bas1.y){
+                        for(Tile obj: tiles){
+                            if(obj.isAvailable){
+                                obj.isAvailable = false;
+                                currentPlayer.sendMessage("COLOR;"+obj.x+";"+obj.y+";"+0+";"+0+";"+0);
+                                for(Piece bas2: base){
+                                    if(obj.x == bas2.x && obj.y == bas2.y){
+                                        obj.isAvailable = true;
+                                        currentPlayer.sendMessage("COLOR;"+obj.x+";"+obj.y+";"+currentPiece.R+";"+currentPiece.G+";"+currentPiece.B);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -175,6 +192,30 @@ public class GameManager {
             }
             case 6 -> {
                 return cyanPieces;
+            }
+        }
+        return null;
+    }
+
+    private ArrayList<Piece> getCurrentPlayerEndBase(int currentPlayerNumber){
+        switch (currentPlayerNumber) {
+            case 1 -> {
+                return redBase;
+            }
+            case 2 -> {
+                return yellowBase;
+            }
+            case 3 -> {
+                return blueBase;
+            }
+            case 4 -> {
+                return purpleBase;
+            }
+            case 5 -> {
+                return greenBase;
+            }
+            case 6 -> {
+                return cyanBase;
             }
         }
         return null;
