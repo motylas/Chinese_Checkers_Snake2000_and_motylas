@@ -40,7 +40,7 @@ public class Window extends JFrame implements ActionListener {
   public int actual_player = 1;
   int x2 = 0;
   int y2 = 0;
-  int boardSize = 5;
+  int boardSize = 6;
 //  private char[][] board = {
 //      {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
 //      {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},

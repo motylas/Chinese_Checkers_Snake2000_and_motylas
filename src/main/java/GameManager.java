@@ -9,7 +9,7 @@ public class GameManager {
     boolean nextPlayer = true;
     int x2 = 0;
     int y2 = 0;
-    int boardSize = 3;
+    int boardSize = 6;
     int piecesInBase = 0;
     ArrayList<Player> players = new ArrayList();
     ArrayList<Tile> tiles = new ArrayList();
@@ -376,31 +376,59 @@ public class GameManager {
                 playerList[5] = 6;
                 break;
         }
+//        for(int i = 0; i < playerList.length; i++) {
+//            switch(playerList[i]) {
+//                case 1:
+//                    addingPiecesToList(1,4,7,13,16,redPieces,255,0,0);
+//                    creatingBase(2, 9, 12, 3, 3, redBase);
+//                    break;
+//                case 2:
+//                    addingPiecesToList(2,0,3,12,12,yellowPieces,255,255,0);
+//                    creatingBase(1, 13, 16, 4, 7, yellowBase);
+//                    break;
+//                case 3:
+//                    addingPiecesToList(1,4,7,4,7,bluePieces,0,0,255);
+//                    creatingBase(2, 9, 12, 12, 12, blueBase);
+//                    break;
+//                case 4:
+//                    addingPiecesToList(2,9,12,3,3,purplePieces,255,0,255);
+//                    creatingBase(1, 4, 7, 13, 16, purpleBase);
+//                    break;
+//                case 5:
+//                    addingPiecesToList(1,13,16,4,7,greenPieces,0,255,0);
+//                    creatingBase(2, 0, 3, 12, 12, greenBase);
+//                    break;
+//                case 6:
+//                    addingPiecesToList(2,9,12,12,12,cyanPieces,0,255,255);
+//                    creatingBase(1, 4, 7, 4, 7, cyanBase);
+//                    break;
+//            }
+//        }
         for(int i = 0; i < playerList.length; i++) {
             switch(playerList[i]) {
                 case 1:
-                    addingPiecesToList(1,4,7,13,16,redPieces,255,0,0);
-                    creatingBase(2, 9, 12, 3, 3, redBase);
+                    addingPiecesToList(1,boardSize,2*boardSize - 1,3*boardSize + 1,4*boardSize,redPieces,255,0,0);
+                    creatingBase(2, 2*boardSize + 1, 3*boardSize, boardSize - 1, boardSize - 1, redBase);
                     break;
                 case 2:
-                    addingPiecesToList(2,0,3,12,12,yellowPieces,255,255,0);
-                    creatingBase(1, 13, 16, 4, 7, yellowBase);
+                    addingPiecesToList(2,0,boardSize - 1,3*boardSize,3*boardSize,yellowPieces,255,255,0);
+                    creatingBase(1, 3*boardSize +1, 4*boardSize, boardSize, 2*boardSize - 1, yellowBase);
                     break;
                 case 3:
-                    addingPiecesToList(1,4,7,4,7,bluePieces,0,0,255);
-                    creatingBase(2, 9, 12, 12, 12, blueBase);
+                    addingPiecesToList(1,boardSize,2*boardSize -1,boardSize,2*boardSize - 1,bluePieces,0,0,255);
+                    creatingBase(2, 2*boardSize + 1, 3*boardSize, 3*boardSize, 3*boardSize, blueBase);
                     break;
                 case 4:
-                    addingPiecesToList(2,9,12,3,3,purplePieces,255,0,255);
-                    creatingBase(1, 4, 7, 13, 16, purpleBase);
+                    addingPiecesToList(2,2*boardSize + 1,3*boardSize,boardSize - 1,boardSize - 1,purplePieces,255,0,255);
+                    creatingBase(1, boardSize, 2*boardSize - 1, 3*boardSize + 1, 4*boardSize, purpleBase);
                     break;
                 case 5:
-                    addingPiecesToList(1,13,16,4,7,greenPieces,0,255,0);
-                    creatingBase(2, 0, 3, 12, 12, greenBase);
+                    addingPiecesToList(1,3*boardSize + 1,4*boardSize,boardSize,2*boardSize - 1,greenPieces,0,255,0);
+                    creatingBase(2, 0, boardSize - 1, 3*boardSize, 3*boardSize, greenBase);
                     break;
                 case 6:
-                    addingPiecesToList(2,9,12,12,12,cyanPieces,0,255,255);
-                    creatingBase(1, 4, 7, 4, 7, cyanBase);
+                    addingPiecesToList(2,2*boardSize + 1,3*boardSize,3*boardSize,3*boardSize,cyanPieces,0,255,255);
+                    creatingBase(1, boardSize, 2*boardSize - 1, boardSize, 2*boardSize - 1, cyanBase);
                     break;
             }
         }
