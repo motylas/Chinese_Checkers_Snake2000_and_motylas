@@ -40,7 +40,8 @@ public class Window extends JFrame implements ActionListener {
   public int actual_player = 1;
   int x2 = 0;
   int y2 = 0;
-  int boardSize = 6;
+  int boardSize = 4;
+  float cirRadius = 650f/(3*boardSize + 1f);
 //  private char[][] board = {
 //      {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
 //      {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
@@ -97,13 +98,13 @@ public class Window extends JFrame implements ActionListener {
     surface.setLayout(null);
 
     surface.add(button);
-    button.setBounds(960,355,150,50);
+    button.setBounds(1020,355,150,50);
     surface.addMouseListener(new ChooseTile());
   }
 
-    public void drawingCircle(int xOffset, int yOffset, int xPos, int yPos, float rad, Graphics2D grap){
-    double X = (xOffset +((xPos - (12 - yPos) * 0.5) * 50));
-    double Y = (yOffset + ((yPos * 0.866) * 50));
+    public void drawingCircle(float xOffset, float yOffset, int xPos, int yPos, float rad, Graphics2D grap){
+    double X = (xOffset +((xPos - (boardSize*3 - yPos) * 0.5) * cirRadius));
+    double Y = (yOffset + ((yPos * 0.866) * cirRadius));
     Window.this.circle = new java.awt.geom.Ellipse2D.Float((float)(X), (float)(Y), (rad), (rad));
     grap.draw(this.circle);
     Window.this.surface.repaint();
@@ -120,7 +121,7 @@ public class Window extends JFrame implements ActionListener {
   public void drawingPieces(ArrayList<Piece> pieces, Graphics2D grap,float radius){
     for(Piece obj: pieces){
       grap.setPaint(new Color(obj.R,obj.G,obj.B));
-      drawingCircle(220,15,obj.x, obj.y,radius,grap);
+      drawingCircle(215 + cirRadius*0.1f,10 + (cirRadius*0.1f),obj.x, obj.y,radius,grap);
       grap.fill(this.circle);
       }
     }
@@ -177,8 +178,8 @@ public class Window extends JFrame implements ActionListener {
   private void firstDrawing(Graphics var1) {
     if(firstDraw == false){
       Graphics2D var2 = (Graphics2D)var1;
-      float radius = 40f;
-      float pieceRadius = 30f;
+      float radius = cirRadius;
+      float pieceRadius = cirRadius;
       int k = 0;
 
       for(int i = 0; i <= 4*boardSize; i++) {
@@ -281,8 +282,8 @@ public class Window extends JFrame implements ActionListener {
 
   private void doDrawing(Graphics var1) {
     Graphics2D var2 = (Graphics2D)var1;
-    float radius = 40f;
-    float pieceRadius = 30f;
+    float radius = cirRadius*0.8f;
+    float pieceRadius = cirRadius*0.6f;
     drawingTiles(var2,radius);
     drawingPieces(redPieces, var2, pieceRadius);
     drawingPieces(greenPieces, var2, pieceRadius);
@@ -367,8 +368,8 @@ public class Window extends JFrame implements ActionListener {
   public void playerMove(int X1, int Y1, ArrayList<Piece> pieces){
 
     for(Tile obj: tiles) {
-      Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (12 - obj.y) * 0.5) * 50)),
-              (float)(10 + ((obj.y * 0.866) * 50)), 40f, 40f);
+      Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (boardSize*3 - obj.y) * 0.5) * cirRadius)),
+              (float)(10 + ((obj.y * 0.866) * cirRadius)), cirRadius*0.8f, cirRadius*0.8f);
 
       if(circle.contains(X1, Y1) && !firstClick) {
         for(Piece pie: pieces){
