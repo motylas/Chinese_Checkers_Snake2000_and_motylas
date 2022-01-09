@@ -11,6 +11,7 @@ public class GameManager {
     int y2 = 0;
     int boardSize = 6;
     int piecesInBase = 0;
+    int baseSize = 0;
     ArrayList<Player> players = new ArrayList();
     ArrayList<Tile> tiles = new ArrayList();
     ArrayList<Piece> redPieces = new ArrayList();
@@ -170,7 +171,7 @@ public class GameManager {
                     }
                 }
             }
-            if(piecesInBase == 10){
+            if(piecesInBase == baseSize){
                 System.out.println("Winning");
             }
             turnEnd(currentPlayer, pieces);
@@ -350,6 +351,11 @@ public class GameManager {
                 }
             }
         }
+
+        for(int i = 1; i <= boardSize; i++){
+            baseSize += i;
+        }
+
         playerList = new int[numberOfPlayers];
         switch(numberOfPlayers){
             case 2:
