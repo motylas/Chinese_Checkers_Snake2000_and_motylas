@@ -9,9 +9,11 @@ public class GameManager {
     boolean nextPlayer = true;
     int x2 = 0;
     int y2 = 0;
-    int boardSize = 6;
+    int boardSize = 3;
     int piecesInBase = 0;
     int baseSize = 0;
+    int allPiecesInBase = 0;
+    int blockedPieces = 0;
     ArrayList<Player> players = new ArrayList();
     ArrayList<Tile> tiles = new ArrayList();
     ArrayList<Piece> redPieces = new ArrayList();
@@ -26,6 +28,12 @@ public class GameManager {
     ArrayList<Piece> yellowBase = new ArrayList();
     ArrayList<Piece> purpleBase = new ArrayList();
     ArrayList<Piece> cyanBase = new ArrayList();
+    ArrayList<Piece> redBlocked = new ArrayList();
+    ArrayList<Piece> yellowBlocked = new ArrayList();
+    ArrayList<Piece> blueBlocked = new ArrayList();
+    ArrayList<Piece> purpleBlocked = new ArrayList();
+    ArrayList<Piece> greenBlocked = new ArrayList();
+    ArrayList<Piece> cyanBlocked = new ArrayList();
     int[] playerList;
 //    private char[][] board = {
 //            {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
@@ -62,6 +70,7 @@ public class GameManager {
         boolean firstClick = Boolean.parseBoolean(values[4]);
         ArrayList<Piece> pieces = getCurrentPlayerPieces(currentPlayerNumber);
         ArrayList<Piece> base = getCurrentPlayerEndBase(currentPlayerNumber);
+        ArrayList<Piece> block = getCurrentPlayerBlockedTiles(currentPlayerNumber);
         Piece currentPiece = null;
         Tile currentTile = null;
         if(mess.startsWith("TRY1")){
@@ -171,9 +180,30 @@ public class GameManager {
                     }
                 }
             }
+            blockedPieces = 0;
+            for(Piece pie: pieces){
+                for(Piece blo: block){
+                    if(pie.x == blo.x && pie.y == blo.y){
+                        blockedPieces ++;
+                    }
+                }
+            }
+            allPiecesInBase = 0;
+            for(Piece bas: base){
+                for(Tile til: tiles){
+                    if(bas.x == til.x && bas.y == til.y && til.isTaken){
+                        allPiecesInBase ++;
+                    }
+                }
+            }
+
             if(piecesInBase == baseSize){
                 System.out.println("Winning");
             }
+            else if(blockedPieces == (2*boardSize - 1) && allPiecesInBase == baseSize){
+                System.out.println("Blokada");
+            }
+
             turnEnd(currentPlayer, pieces);
         }
     }
@@ -230,6 +260,30 @@ public class GameManager {
             }
             case 6 -> {
                 return cyanBase;
+            }
+        }
+        return null;
+    }
+
+    private ArrayList<Piece> getCurrentPlayerBlockedTiles(int currentPlayerNumber){
+        switch (currentPlayerNumber) {
+            case 1 -> {
+                return redBlocked;
+            }
+            case 2 -> {
+                return yellowBlocked;
+            }
+            case 3 -> {
+                return blueBlocked;
+            }
+            case 4 -> {
+                return purpleBlocked;
+            }
+            case 5 -> {
+                return greenBlocked;
+            }
+            case 6 -> {
+                return cyanBlocked;
             }
         }
         return null;
@@ -293,6 +347,89 @@ public class GameManager {
         for (Player player: players) {
             player.sendMessage(com+";"+player.getId());
         }
+    }
+
+    public void creatingBlockedTiles(ArrayList<Piece> pieces) {
+        int id = 1;
+        if(pieces == redBlocked){
+            for(int i = 2*boardSize + 1; i <= 3*boardSize; i++){
+                pieces.add(new Piece(id, i, boardSize - 1, false, 0,0,0));
+                id ++;
+            }
+            for(int i = 2*boardSize + 2; i <= 3*boardSize; i++){
+                pieces.add(new Piece(id, i, boardSize - 2, false, 0,0,0));
+                id ++;
+            }
+        }
+        if(pieces == yellowBlocked){
+            for(int i = boardSize; i <= 2*boardSize - 1; i++){
+                pieces.add(new Piece(id, 3*boardSize + 1, i, false, 0,0,0));
+                id ++;
+            }
+            for(int i = boardSize; i <= 2*boardSize - 2; i++){
+                pieces.add(new Piece(id, 3*boardSize + 2, i, false, 0,0,0));
+                id ++;
+            }
+        }
+        if(pieces == blueBlocked){
+            int i = 2*boardSize + 1;
+            int j = 3*boardSize;
+            for(int k = 1; k <= boardSize; k++){
+                pieces.add(new Piece(id,i,j,false,0,0,0));
+                id++;
+                i++;
+                j--;
+            }
+            i = 2*boardSize + 2;
+            j = 3*boardSize;
+            for(int k = 1; k < boardSize; k++){
+                pieces.add(new Piece(id,i,j,false,0,0,0));
+                id++;
+                i++;
+                j--;
+            }
+        }
+        if(pieces == purpleBlocked){
+            for(int i = boardSize; i <= 2*boardSize - 1; i++){
+                pieces.add(new Piece(id,i,3*boardSize+1,false,0,0,0));
+                id ++;
+            }
+            for(int i = boardSize; i <= 2*boardSize - 2; i++){
+                pieces.add(new Piece(id,i,3*boardSize+2,false,0,0,0));
+                id ++;
+            }
+        }
+
+        if(pieces == greenBlocked){
+            for(int i = 2*boardSize + 1; i <= 3*boardSize; i++){
+                pieces.add(new Piece(id,boardSize - 1,i,false,0,0,0));
+                id++;
+            }
+            for(int i = 2*boardSize + 2; i <= 3*boardSize; i++){
+                pieces.add(new Piece(id,boardSize - 2,i,false,0,0,0));
+                id++;
+            }
+        }
+
+        if(pieces == cyanBlocked){
+            int i = boardSize;
+            int j = 2*boardSize - 1;
+            for(int k = 1; k <= boardSize; k++){
+                pieces.add(new Piece(id,i,j,false,0,0,0));
+                id++;
+                i++;
+                j--;
+            }
+            i = boardSize;
+            j = 2*boardSize - 2;
+            for(int k = 1; k < boardSize; k++){
+                pieces.add(new Piece(id,i,j,false,0,0,0));
+                id++;
+                i++;
+                j--;
+            }
+        }
+
     }
 
     private void prepareVirtualBoard(int numberOfPlayers) {
@@ -415,26 +552,32 @@ public class GameManager {
                 case 1:
                     addingPiecesToList(1,boardSize,2*boardSize - 1,3*boardSize + 1,4*boardSize,redPieces,255,0,0);
                     creatingBase(2, 2*boardSize + 1, 3*boardSize, boardSize - 1, boardSize - 1, redBase);
+                    creatingBlockedTiles(redBlocked);
                     break;
                 case 2:
                     addingPiecesToList(2,0,boardSize - 1,3*boardSize,3*boardSize,yellowPieces,255,255,0);
                     creatingBase(1, 3*boardSize +1, 4*boardSize, boardSize, 2*boardSize - 1, yellowBase);
+                    creatingBlockedTiles(yellowBlocked);
                     break;
                 case 3:
                     addingPiecesToList(1,boardSize,2*boardSize -1,boardSize,2*boardSize - 1,bluePieces,0,0,255);
                     creatingBase(2, 2*boardSize + 1, 3*boardSize, 3*boardSize, 3*boardSize, blueBase);
+                    creatingBlockedTiles(blueBlocked);
                     break;
                 case 4:
                     addingPiecesToList(2,2*boardSize + 1,3*boardSize,boardSize - 1,boardSize - 1,purplePieces,255,0,255);
                     creatingBase(1, boardSize, 2*boardSize - 1, 3*boardSize + 1, 4*boardSize, purpleBase);
+                    creatingBlockedTiles(purpleBlocked);
                     break;
                 case 5:
                     addingPiecesToList(1,3*boardSize + 1,4*boardSize,boardSize,2*boardSize - 1,greenPieces,0,255,0);
                     creatingBase(2, 0, boardSize - 1, 3*boardSize, 3*boardSize, greenBase);
+                    creatingBlockedTiles(greenBlocked);
                     break;
                 case 6:
                     addingPiecesToList(2,2*boardSize + 1,3*boardSize,3*boardSize,3*boardSize,cyanPieces,0,255,255);
                     creatingBase(1, boardSize, 2*boardSize - 1, boardSize, 2*boardSize - 1, cyanBase);
+                    creatingBlockedTiles(cyanBlocked);
                     break;
             }
         }
