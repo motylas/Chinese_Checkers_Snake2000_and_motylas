@@ -9,7 +9,7 @@ public class GameManager {
     boolean nextPlayer = true;
     int x2 = 0;
     int y2 = 0;
-    int boardSize = 3;
+    int boardSize = 4;
     int piecesInBase = 0;
     int baseSize = 0;
     int allPiecesInBase = 0;
@@ -35,25 +35,6 @@ public class GameManager {
     ArrayList<Piece> greenBlocked = new ArrayList();
     ArrayList<Piece> cyanBlocked = new ArrayList();
     int[] playerList;
-//    private char[][] board = {
-//            {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
-//            {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
-//            {'x','x','x','x','x','x','x','x','x','x','o','o','o','x','x','x','x'},
-//            {'x','x','x','x','x','x','x','x','x','o','o','o','o','x','x','x','x'},
-//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','o'},
-//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','x'},
-//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','x','x'},
-//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x'},
-//            {'x','x','x','x','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//            {'x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//            {'x','x','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//            {'x','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//            {'o','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//            {'x','x','x','x','o','o','o','o','x','x','x','x','x','x','x','x','x'},
-//            {'x','x','x','x','o','o','o','x','x','x','x','x','x','x','x','x','x'},
-//            {'x','x','x','x','o','o','x','x','x','x','x','x','x','x','x','x','x'},
-//            {'x','x','x','x','o','x','x','x','x','x','x','x','x','x','x','x','x'},
-//    };
     private char[][] board = new char[4*boardSize + 1][4*boardSize + 1];
 
     public void communication(String com){

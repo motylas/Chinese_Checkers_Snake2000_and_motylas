@@ -26,6 +26,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.*;
+import java.awt.Font;
 
 public class Window extends JFrame implements ActionListener {
   private final Menu menu3;
@@ -42,25 +43,6 @@ public class Window extends JFrame implements ActionListener {
   int y2 = 0;
   int boardSize = 4;
   float cirRadius = 650f/(3*boardSize + 1f);
-//  private char[][] board = {
-//      {'x','x','x','x','x','x','x','x','x','x','x','x','o','x','x','x','x'},
-//      {'x','x','x','x','x','x','x','x','x','x','x','o','o','x','x','x','x'},
-//      {'x','x','x','x','x','x','x','x','x','x','o','o','o','x','x','x','x'},
-//      {'x','x','x','x','x','x','x','x','x','o','o','o','o','x','x','x','x'},
-//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','o'},
-//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','o','x'},
-//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','o','x','x'},
-//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x'},
-//      {'x','x','x','x','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//      {'x','x','x','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//      {'x','x','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//      {'x','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//      {'o','o','o','o','o','o','o','o','o','o','o','o','o','x','x','x','x'},
-//      {'x','x','x','x','o','o','o','o','x','x','x','x','x','x','x','x','x'},
-//      {'x','x','x','x','o','o','o','x','x','x','x','x','x','x','x','x','x'},
-//      {'x','x','x','x','o','o','x','x','x','x','x','x','x','x','x','x','x'},
-//      {'x','x','x','x','o','x','x','x','x','x','x','x','x','x','x','x','x'},
-//  };
   private char[][] board = new char[4*boardSize + 1][4*boardSize + 1];
   public ArrayList<Tile> tiles = new ArrayList();
   public ArrayList<Piece> redPieces = new ArrayList();
@@ -75,9 +57,12 @@ public class Window extends JFrame implements ActionListener {
   public ArrayList<Piece> yellowBase = new ArrayList();
   public ArrayList<Piece> purpleBase = new ArrayList();
   public ArrayList<Piece> cyanBase = new ArrayList();
+  JLabel label1 = new JLabel("Twoj kolor");
+  JLabel label2 = new JLabel("Aktualny gracz");
+
+
 
   public int[] playerList;
-  private JDialog dialog;
   private int playerId;
 
 
@@ -96,10 +81,27 @@ public class Window extends JFrame implements ActionListener {
       }
     };
     surface.setLayout(null);
-
+    surface.add(label1);
+    surface.add(label2);
     surface.add(button);
     button.setBounds(1020,355,150,50);
+    label2.setBounds(1020,280,150,50);
+    label1.setBounds(1020,205,150,50);
+    label1.setFont(new Font("Verdana", Font.BOLD, 16));
+    label2.setFont(new Font("Verdana", Font.BOLD, 16));
     surface.addMouseListener(new ChooseTile());
+  }
+
+  public Color setColor(int number){
+    return switch (number) {
+      case 1 -> new Color(255, 0, 0);
+      case 2 -> new Color(255, 255, 0);
+      case 3 -> new Color(0, 0, 255);
+      case 4 -> new Color(255, 0, 255);
+      case 5 -> new Color(0, 255, 0);
+      case 6 -> new Color(0, 255, 255);
+      default -> null;
+    };
   }
 
     public void drawingCircle(float xOffset, float yOffset, int xPos, int yPos, float rad, Graphics2D grap){
@@ -125,6 +127,8 @@ public class Window extends JFrame implements ActionListener {
       grap.fill(this.circle);
       }
     }
+
+
 
   public void creatingBase(int t, int j_1, int j_2, int k_1, int subs, ArrayList<Piece> pieces){
     int id=1;
@@ -291,6 +295,8 @@ public class Window extends JFrame implements ActionListener {
     drawingPieces(yellowPieces, var2, pieceRadius);
     drawingPieces(purplePieces, var2, pieceRadius);
     drawingPieces(cyanPieces, var2, pieceRadius);
+    label1.setForeground(setColor(playerList[playerId-1]));
+    label2.setForeground(setColor(actual_player));
   }
 
   public void nextPlayerTurn() {
@@ -454,7 +460,7 @@ public class Window extends JFrame implements ActionListener {
     setMenuBar(this.myMenu);
     Surface();
     add(this.surface);
-    setBounds(100, 100, 1280, 960);
+    setBounds(100, 0, 1280, 960);
     setVisible(false);
     this.playerId = playerId;
     playerList = new int[numberOfPlayers];
