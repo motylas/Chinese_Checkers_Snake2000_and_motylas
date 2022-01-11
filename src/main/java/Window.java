@@ -1,6 +1,4 @@
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -12,22 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D.Float;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.*;
 import java.awt.Font;
-import java.awt.Label;
 
 public class Window extends Board implements ActionListener {
   private final Menu menu3;
@@ -38,8 +24,8 @@ public class Window extends Board implements ActionListener {
   private JPanel surface;
   public boolean firstClick = false;
   private boolean firstDraw = false;
-  public boolean doubleJump = false;
-  public int actual_player = 1;
+  public int currentPlayer;
+  boolean hasTurn = false;
   float cirRadius = 650f/(3*boardSize + 1f);
   JLabel label1 = new JLabel("Twoj kolor");
   JLabel label2 = new JLabel("Aktualny gracz");
@@ -51,8 +37,9 @@ public class Window extends Board implements ActionListener {
   private void Surface() {
     JButton button = new JButton("Zakoncz ture");
     button.addActionListener(e -> {
-      if(actual_player == playerList[playerId-1]) {
-        Client.action("NEXT;"+actual_player);
+      if(hasTurn) {
+        Client.action("NEXT;"+playerList[playerId-1]);
+        firstClick = false;
       }
     });
     this.surface = new JPanel() {
@@ -111,31 +98,6 @@ public class Window extends Board implements ActionListener {
     }
 
 
-  public void addingPiecesToList(int t,int j_1, int j_2, int k_1, int subs,ArrayList<Piece> pieces, Graphics2D grap, float radius,int R, int G, int B){
-    int id=1;
-    int i = subs;
-    int type = t;
-    for (int j = j_1; j <= j_2; j++) {
-      if (type == 1) {
-          for (int k = k_1; k <= i; k++) {
-            pieces.add(new Piece(id,j, k, false, R, G, B));
-            drawingCircle(220, 15, j, k, radius, grap);
-            id++;
-          }
-          i--;
-      }
-      else if(type == 2){
-          for (int k = i; k <= k_1; k++) {
-            pieces.add(new Piece(id,j, k, false, R, G, B));
-            id++;
-            drawingCircle(220, 15, j, k, radius, grap);
-          }
-          i--;
-      }
-    }
-  }
-
-
   private void firstDrawing(Graphics var1) {
     if(!firstDraw){
       Graphics2D var2 = (Graphics2D)var1;
@@ -166,41 +128,19 @@ public class Window extends Board implements ActionListener {
     drawingPieces(purplePieces, var2, pieceRadius);
     drawingPieces(cyanPieces, var2, pieceRadius);
     label1.setForeground(setColor(playerList[playerId-1]));
-    label2.setForeground(setColor(actual_player));
+    label2.setForeground(setColor(currentPlayer));
   }
 
-  public void nextPlayerTurn() {
-      for(int i = 0; i < playerList.length; i++){
-        if(actual_player == playerList[i]) {
-          if(i == (playerList.length - 1)){
-            actual_player = playerList[0];
-          }
-          else{
-            actual_player = playerList[i+1];
-          }
-          break;
-        }
-      }
-      firstClick = false;
+  public void nextPlayerTurn(String action) {
+    String[] values = action.split(";");
+    hasTurn = Boolean.parseBoolean(values[1]);
   }
 
 
   public void actionPerformed(ActionEvent var1) {
-
+  // TODO: do usuniecia
     if (var1.getActionCommand().equals("Nastepny Gracz")) {
-      for(int i = 0; i < playerList.length; i++){
-        if(actual_player == playerList[i]) {
-          if(i == (playerList.length - 1)){
-            actual_player = playerList[0];
-          }
-          else{
-            actual_player = playerList[i+1];
-          }
-          break;
-        }
-      }
-      firstClick = false;
-      doubleJump = false;
+      System.out.println("Do usuniecia");
     }
   }
 
@@ -219,24 +159,14 @@ public class Window extends Board implements ActionListener {
       X1 = e.getX();
       Y1 = e.getY();
       // TODO: 12/21/2021 change to switch case
-      if(actual_player == playerList[playerId-1]){
-        if(actual_player == 1){
-          playerMove(X1,Y1,redPieces);
-        }
-        else if(actual_player == 2){
-          playerMove(X1,Y1,yellowPieces);
-        }
-        else if(actual_player == 3){
-          playerMove(X1,Y1,bluePieces);
-        }
-        else if(actual_player == 4){
-          playerMove(X1,Y1,purplePieces);
-        }
-        else if(actual_player == 5){
-          playerMove(X1,Y1,greenPieces);
-        }
-        else if(actual_player == 6){
-          playerMove(X1,Y1,cyanPieces);
+      if(hasTurn){
+        switch (playerList[playerId - 1]) {
+          case 1 -> playerMove(X1, Y1, redPieces);
+          case 2 -> playerMove(X1, Y1, yellowPieces);
+          case 3 -> playerMove(X1, Y1, bluePieces);
+          case 4 -> playerMove(X1, Y1, purplePieces);
+          case 5 -> playerMove(X1, Y1, greenPieces);
+          case 6 -> playerMove(X1, Y1, cyanPieces);
         }
       }
     }
@@ -250,14 +180,14 @@ public class Window extends Board implements ActionListener {
       if(circle.contains(X1, Y1) && !firstClick) {
         for(Piece pie: pieces){
           if(obj.x == pie.x && obj.y == pie.y){
-            Client.action("TRY1;"+pie.x+";"+pie.y+";"+actual_player+";"+firstClick);
+            Client.action("TRY1;"+pie.x+";"+pie.y+";"+playerList[playerId-1]);
             firstClick = true;
           }
         }
       }
 
       else if(circle.contains(X1, Y1) && firstClick) {
-        Client.action("TRY2;"+obj.x+";"+obj.y+";"+actual_player+";"+firstClick);
+        Client.action("TRY2;"+obj.x+";"+obj.y+";"+playerList[playerId-1]);
         firstClick = false;
       }
     }
@@ -286,7 +216,6 @@ public class Window extends Board implements ActionListener {
     int y = Integer.parseInt(values[2]);
     int id = Integer.parseInt(values[3]);
     int player = Integer.parseInt(values[4]);
-    boolean nextPlayer = Boolean.parseBoolean(values[5]);
 
     switch (player){
       case 1: changePosition(redPieces,id,x,y);
@@ -302,9 +231,6 @@ public class Window extends Board implements ActionListener {
       case 6: changePosition(cyanPieces,id,x,y);
         break;
     }
-    if(nextPlayer){
-      nextPlayerTurn();
-    }
   }
 
   private void changePosition(ArrayList<Piece> pieces, int id, int x, int y){
@@ -314,6 +240,17 @@ public class Window extends Board implements ActionListener {
         piece.y = y;
       }
     }
+  }
+
+  public void setCurrentPlayer(String action){
+    String[] values = action.split(";");
+    currentPlayer = Integer.parseInt(values[1]);
+  }
+
+  public void win(String action){
+    String[] values = action.split(";");
+    int winnerId = Integer.parseInt(values[1]);
+    System.out.println("Player " + winnerId + " won");
   }
 
   public Window(int numberOfPlayers, int playerId) {
@@ -335,5 +272,9 @@ public class Window extends Board implements ActionListener {
     this.playerId = playerId;
     playerList = new int[numberOfPlayers];
     createPlayerList(numberOfPlayers);
+    if(playerId==1){
+      hasTurn=true;
+    }
+    currentPlayer = playerList[0];
   }
 }
