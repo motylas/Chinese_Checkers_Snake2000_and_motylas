@@ -71,8 +71,13 @@ public  class Client {
                 var1.colorTile(response);
             }
             else if (response.startsWith("NEXT")){
-                var1.nextPlayerTurn();
-
+                var1.nextPlayerTurn(response);
+            }
+            else if (response.startsWith("PLAYERCOLOR")){
+                var1.setCurrentPlayer(response);
+            }
+            else if (response.startsWith("WIN")){
+                var1.win(response);
             }
             // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
