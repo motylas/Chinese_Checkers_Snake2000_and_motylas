@@ -76,7 +76,11 @@ public class Player implements Runnable {
     }
 
     public void sendMessage(String message){
-        output.println(message);
+        try{
+            output.println(message);
+        } catch (Exception e){
+
+        }
     }
 
     public int getId() {
