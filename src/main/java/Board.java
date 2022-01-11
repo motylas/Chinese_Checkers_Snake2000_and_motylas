@@ -73,30 +73,30 @@ public abstract class Board extends JFrame {
     }
 
     protected void createPlayerList(int numberOfPlayers){
-        switch(numberOfPlayers){
-            case 2:
+        switch (numberOfPlayers) {
+            case 2 -> {
                 playerList[0] = 1;
                 playerList[1] = 4;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 playerList[0] = 1;
                 playerList[1] = 3;
                 playerList[2] = 5;
-                break;
-            case 4:
+            }
+            case 4 -> {
                 playerList[0] = 2;
                 playerList[1] = 3;
                 playerList[2] = 5;
                 playerList[3] = 6;
-                break;
-            case 6:
+            }
+            case 6 -> {
                 playerList[0] = 1;
                 playerList[1] = 2;
                 playerList[2] = 3;
                 playerList[3] = 4;
                 playerList[4] = 5;
                 playerList[5] = 6;
-                break;
+            }
         }
     }
 
