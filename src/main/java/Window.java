@@ -177,7 +177,6 @@ public class Window extends Board implements ActionListener {
     }
   }
   public void playerMove(int X1, int Y1, ArrayList<Piece> pieces){
-
     for(Tile obj: tiles) {
       Window.this.circle = new Ellipse2D.Float((float)(215 +((obj.x - (boardSize*3 - obj.y) * 0.5) * cirRadius)),
               (float)(10 + ((obj.y * 0.866) * cirRadius)), cirRadius*0.8f, cirRadius*0.8f);

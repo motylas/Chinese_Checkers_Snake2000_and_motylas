@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class WindowTest {
 
@@ -13,8 +13,20 @@ public class WindowTest {
   @Test
   public void setColorTest() throws NoSuchMethodException {
     Window window = new Window(6,1);
-    Color color = window.setColor(3);
-    assertEquals(color, Color.BLUE);
+    Color colorB = window.setColor(3);
+    assertEquals(colorB, Color.BLUE);
+    Color colorR = window.setColor(1);
+    assertEquals(colorR, Color.RED);
+    Color colorY = window.setColor(2);
+    assertEquals(colorY, Color.YELLOW);
+    Color colorG = window.setColor(5);
+    assertEquals(colorG, Color.GREEN);
+    Color colorP = window.setColor(4);
+    assertEquals(colorP, new Color(255,0,255));
+    Color colorC = window.setColor(6);
+    assertEquals(colorC, Color.CYAN);
+    Color colorNull = window.setColor(123);
+    assertEquals(colorNull, null);
   }
 
   @Test
@@ -96,6 +108,53 @@ public class WindowTest {
       }
     }
   }
+
+  @Test
+  public void setCurrentPlayerTest() {
+    Window window = new Window(4,1);
+    window.setCurrentPlayer("Proba;1");
+    assertEquals(window.currentPlayer, 1);
+  }
+
+  @Test
+  public void playerMoveTest1() {
+    Window window = new Window(3,1);
+    window.createBoard();
+    window.addPieces();
+    window.firstClick = false;
+    window.playerMove(535,724,window.redPieces);
+    assertTrue(window.firstClick);
+  }
+
+  @Test
+  public void playerMoveTest2() {
+    Window window = new Window(3,1);
+    window.createBoard();
+    window.addPieces();
+    window.firstClick = true;
+    window.playerMove(535,724,window.redPieces);
+    assertFalse(window.firstClick);
+  }
+
+  @Test
+  public void winTest() {
+    Window window = new Window(6,1);
+    window.createBoard();
+    window.addPieces();
+    window.win("Hejka;5;1");
+    assertEquals(window.winnersLabel.getText(), ("<html>1. Player Green<br/></html>"));
+  }
+
+  @Test
+  public void nextPlayerTurnTest() {
+    Window window = new Window(6,1);
+    window.nextPlayerTurn("Proba;true");
+    assertTrue(window.hasTurn);
+  }
+
+
+
+
 
 
 }

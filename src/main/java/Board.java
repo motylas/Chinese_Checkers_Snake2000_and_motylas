@@ -10,7 +10,7 @@ public abstract class Board extends JFrame {
     public ArrayList<Piece> purplePieces = new ArrayList();
     public ArrayList<Piece> cyanPieces = new ArrayList();
 
-    int boardSize = 2;
+    int boardSize = 4;
     public int[] playerList;
     public char[][] board = new char[4*boardSize + 1][4*boardSize + 1];
 

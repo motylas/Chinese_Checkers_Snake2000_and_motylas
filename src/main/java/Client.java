@@ -86,7 +86,9 @@ public  class Client {
 
     public static void action(String action){
         if (action.startsWith("MOVE") || action.startsWith("STOP") || action.startsWith("TRY") || action.startsWith("NEXT")){
-            out.println(action);
+            try{
+                out.println(action);
+            } catch (Exception e) {}
         }
         else if (action.startsWith("START")){
             switch (playerCount){
@@ -94,10 +96,14 @@ public  class Client {
                 case 3:
                 case 4:
                 case 6:
-                    out.println(action+";"+playerCount);
+                    try{
+                        out.println(action+";"+playerCount);
+                    } catch (Exception e) {}
                     break;
                 default:
-                    System.out.println("Invalid amount of players!");
+                    try{
+                        System.out.println("Invalid amount of players!");
+                    } catch (Exception e) {}
             }
         }
     }

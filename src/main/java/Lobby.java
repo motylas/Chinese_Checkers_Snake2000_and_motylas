@@ -23,8 +23,4 @@ public class Lobby extends JFrame {
   void playerJoin(int playerCount){
     label.setText("Liczba graczy: "+ playerCount + "/6");
   }
-
-  public static void main(String[] args){
-    Lobby lobby = new Lobby();
-  }
 }
