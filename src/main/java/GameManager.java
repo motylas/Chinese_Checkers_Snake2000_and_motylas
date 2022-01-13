@@ -70,10 +70,12 @@ public class GameManager extends Board {
 
     private void checkEvent() {
         if (piecesInBase == baseSize) {
-            System.out.println("Winning");
             winnersId[winnersCount]=currentPlayerId;
-            communication("WIN;"+currentPlayerId);
             winnersCount++;
+            communication("WIN;"+currentPlayerId+";"+winnersCount);
+            if(winnersCount+1==winnersId.length){
+                System.out.println("ENDGAME");
+            }
         } else if (blockedPieces == (2 * boardSize - 1) && allPiecesInBase == baseSize) {
             System.out.println("Blokada");
         }

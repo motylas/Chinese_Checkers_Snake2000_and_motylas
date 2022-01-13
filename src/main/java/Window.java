@@ -29,7 +29,7 @@ public class Window extends Board implements ActionListener {
   float cirRadius = 650f/(3*boardSize + 1f);
   JLabel label1 = new JLabel("Twoj kolor");
   JLabel label2 = new JLabel("Aktualny gracz");
-  JLabel winnersLabel = new JLabel("<html>1. Gracz czerwony!<br/>2. Gracz niebieski!<br/>3. Gracz fioletowy!<br/>4. Gracz cyan!<br/>5. Gracz zielony!<br/>6. Gracz zolty!<br/></html>");
+  JLabel winnersLabel = new JLabel("<html></html>");
 
 
   private final int playerId;
@@ -255,6 +255,21 @@ public class Window extends Board implements ActionListener {
   public void win(String action){
     String[] values = action.split(";");
     int winnerId = Integer.parseInt(values[1]);
+    int winnersCount = Integer.parseInt(values[2]);
+    String text = winnersLabel.getText();
+    String newScoreBoard = text.replace("</html>", "");
+    newScoreBoard += winnersCount + ". Player ";
+    switch (playerList[winnerId - 1]) {
+      case 1 -> newScoreBoard += "Red";
+      case 2 -> newScoreBoard += "Yellow";
+      case 3 -> newScoreBoard += "Blue";
+      case 4 -> newScoreBoard += "Purple";
+      case 5 -> newScoreBoard += "Green";
+      case 6 -> newScoreBoard += "Cyan";
+    }
+    newScoreBoard += "<br/></html>";
+    winnersLabel.setText(newScoreBoard);
+    System.out.println(newScoreBoard);
     System.out.println("Player " + winnerId + " won");
   }
 
