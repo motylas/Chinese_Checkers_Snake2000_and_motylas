@@ -29,6 +29,7 @@ public class Window extends Board implements ActionListener {
   float cirRadius = 650f/(3*boardSize + 1f);
   JLabel label1 = new JLabel("Twoj kolor");
   JLabel label2 = new JLabel("Aktualny gracz");
+  JLabel winnersLabel = new JLabel("<html>1. Gracz czerwony!<br/>2. Gracz niebieski!<br/>3. Gracz fioletowy!<br/>4. Gracz cyan!<br/>5. Gracz zielony!<br/>6. Gracz zolty!<br/></html>");
 
 
   private final int playerId;
@@ -53,11 +54,15 @@ public class Window extends Board implements ActionListener {
     surface.add(label1);
     surface.add(label2);
     surface.add(button);
+    surface.add(winnersLabel);
     button.setBounds(1020,355,150,50);
     label2.setBounds(1020,280,150,50);
     label1.setBounds(1020,205,150,50);
+    winnersLabel.setBounds(1020,430,250,200);
     label1.setFont(new Font("Verdana", Font.BOLD, 16));
     label2.setFont(new Font("Verdana", Font.BOLD, 16));
+    winnersLabel.setFont(new Font("Verdana", Font.BOLD, 16));
+
     surface.addMouseListener(new ChooseTile());
   }
 
