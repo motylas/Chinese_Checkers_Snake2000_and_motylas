@@ -7,9 +7,16 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class which contains tests for 'Window' class.
+ */
 public class WindowTest {
 
 
+  /**
+   * Test for 'setColor' method.
+   * @throws NoSuchMethodException  Exception.
+   */
   @Test
   public void setColorTest() throws NoSuchMethodException {
     Window window = new Window(6,1);
@@ -29,6 +36,12 @@ public class WindowTest {
     assertEquals(colorNull, null);
   }
 
+  /**
+   * Test for 'changePosition' method.
+   * @throws NoSuchMethodException  Exception.
+   * @throws InvocationTargetException  Exception.
+   * @throws IllegalAccessException Exception.
+   */
   @Test
   public void changePositionTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     Window window = new Window(6,1);
@@ -45,6 +58,9 @@ public class WindowTest {
     }
   }
 
+  /**
+   * Test for 'otherMove' method.
+   */
   @Test
   public void otherMoveTest() {
     Window window = new Window(6,1);
@@ -94,6 +110,9 @@ public class WindowTest {
     }
   }
 
+  /**
+   * Test for 'colorTile' method.
+   */
   @Test
   public void colorTileTest() {
     Window window = new Window(6,1);
@@ -109,6 +128,9 @@ public class WindowTest {
     }
   }
 
+  /**
+   * Test for 'setCurrentPlayer' method.
+   */
   @Test
   public void setCurrentPlayerTest() {
     Window window = new Window(4,1);
@@ -116,6 +138,9 @@ public class WindowTest {
     assertEquals(window.currentPlayer, 1);
   }
 
+  /**
+   * Test of the first part of 'playerMove' method.
+   */
   @Test
   public void playerMoveTest1() {
     Window window = new Window(3,1);
@@ -126,6 +151,9 @@ public class WindowTest {
     assertTrue(window.firstClick);
   }
 
+  /**
+   * Test of the second part of 'playerMove' method.
+   */
   @Test
   public void playerMoveTest2() {
     Window window = new Window(3,1);
@@ -136,6 +164,9 @@ public class WindowTest {
     assertFalse(window.firstClick);
   }
 
+  /**
+   * Test for 'win' method.
+   */
   @Test
   public void winTest() {
     Window window = new Window(6,1);
@@ -145,16 +176,13 @@ public class WindowTest {
     assertEquals(window.winnersLabel.getText(), ("<html>1. Player Green<br/></html>"));
   }
 
+  /**
+   * Test for 'nextPlayerTurn' method.
+   */
   @Test
   public void nextPlayerTurnTest() {
     Window window = new Window(6,1);
     window.nextPlayerTurn("Proba;true");
     assertTrue(window.hasTurn);
   }
-
-
-
-
-
-
 }

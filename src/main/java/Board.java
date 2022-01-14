@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * Abstract class which is responsible for setting board.
+ */
 public abstract class Board extends JFrame {
     public ArrayList<Tile> tiles = new ArrayList();
     public ArrayList<Piece> redPieces = new ArrayList();
@@ -14,6 +17,9 @@ public abstract class Board extends JFrame {
     public int[] playerList;
     public char[][] board = new char[4*boardSize + 1][4*boardSize + 1];
 
+    /**
+     * Method which added only this tiles to ArrayList, which should be drawn as a part of the board.
+     */
     protected void createBoard(){
         int k = 0;
 
@@ -72,6 +78,10 @@ public abstract class Board extends JFrame {
         }
     }
 
+    /**
+     * This method creates player list which depends on number of players.
+     * @param numberOfPlayers Number of players, which participate in game.
+     */
     protected void createPlayerList(int numberOfPlayers){
         switch (numberOfPlayers) {
             case 2 -> {
@@ -100,6 +110,9 @@ public abstract class Board extends JFrame {
         }
     }
 
+    /**
+     * Method, which call 'addingPiecesToList' method for players who take part in game.
+     */
     protected void addPieces(){
         for(int i = 0; i < playerList.length; i++) {
             switch(playerList[i]) {
@@ -125,6 +138,18 @@ public abstract class Board extends JFrame {
         }
     }
 
+    /**
+     * Method which add pieces to the specified ArrayList.
+     * @param t Type of the triangle which is made by added pieces.
+     * @param j_1 First variable used to choose specified pieces.
+     * @param j_2 Second variable used to choose specified pieces.
+     * @param k_1 Third variable used to choose specified pieces.
+     * @param subs  Fourth variable used to choose specified pieces.
+     * @param pieces    ArrayList. Pieces are added to this ArrayList.
+     * @param R First value in RGB to set Piece's color.
+     * @param G Second value in RGB to set Piece's color.
+     * @param B Third value in RGB to set Piece's color.
+     */
     private void addingPiecesToList(int t, int j_1, int j_2, int k_1, int subs, ArrayList<Piece> pieces, int R, int G, int B){
         int id=1;
         int i = subs;

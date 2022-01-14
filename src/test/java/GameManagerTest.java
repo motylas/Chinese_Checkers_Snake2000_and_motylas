@@ -7,8 +7,17 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class which contains tests for 'GameManager' class.
+ */
 public class GameManagerTest {
 
+  /**
+   * Test for 'getCurrentPlayer' method.
+   * @throws NoSuchMethodException Exception.
+   * @throws InvocationTargetException  Exception.
+   * @throws IllegalAccessException Exception.
+   */
   @Test
   public void getCurrentPlayerPiecesTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     GameManager gameManager = new GameManager();
@@ -24,6 +33,12 @@ public class GameManagerTest {
 
   }
 
+  /**
+   * Test for 'getCurrentPlayerEndBase' method.
+   * @throws NoSuchMethodException  Exception.
+   * @throws InvocationTargetException  Exception.
+   * @throws IllegalAccessException Exception.
+   */
   @Test
   public void getCurrentPlayerEndBaseTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     GameManager gameManager = new GameManager();
@@ -39,6 +54,12 @@ public class GameManagerTest {
 
   }
 
+  /**
+   * Test for 'getCurrentPlayerBlockedTiles' method.
+   * @throws NoSuchMethodException  Exception.
+   * @throws InvocationTargetException  Exception.
+   * @throws IllegalAccessException Exception.
+   */
   @Test
   public void getCurrentPlayerBlockedTilesTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     GameManager gameManager = new GameManager();
@@ -54,6 +75,12 @@ public class GameManagerTest {
 
   }
 
+  /**
+   * Test of first part of 'moveHandler' method.
+   * @throws NoSuchMethodException  Exception.
+   * @throws InvocationTargetException  Exception.
+   * @throws IllegalAccessException Exception.
+   */
   @Test
   public void moveHandlerTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     GameManager gameManager = new GameManager();
@@ -71,6 +98,12 @@ public class GameManagerTest {
 
   }
 
+  /**
+   * Test of second part of 'moveHandler' method.
+   * @throws NoSuchMethodException  Exception.
+   * @throws InvocationTargetException  Exception.
+   * @throws IllegalAccessException Exception.
+   */
   @Test
   public void moveHandlerTry2Test() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     GameManager gameManager = new GameManager();
