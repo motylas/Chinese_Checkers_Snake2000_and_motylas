@@ -6,15 +6,45 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
+/**
+ * Client class connecting with player
+ * Also calls methods in Window
+ */
 public  class Client {
+    /**
+     * Typical socket
+     */
     private Socket socket;
+    /**
+     * Input from player
+     */
     private Scanner in;
+    /**
+     * Output sending to player
+     */
     private static PrintWriter out;
+    /**
+     * Window where we play the game
+     */
     static Window var1;
+    /**
+     * Our lobby
+     */
     Lobby lobby;
+    /**
+     * Number of current players
+     */
     static int playerCount = 0;
+    /**
+     * Checking if the game has already started
+     */
     static boolean gameStarted = false;
 
+    /**
+     * Client constructor, setup server needed components
+     * @param serverAddress server Address specified in main args[1]
+     * @throws Exception
+     */
     public Client(String serverAddress) throws Exception {
         try{
             socket = new Socket(serverAddress, 55555);
@@ -26,6 +56,20 @@ public  class Client {
         }
     }
 
+    /**
+     * This method gets input from player and do things on specific action
+     * MOVE - calling method in Window to move a specific piece
+     * START - creates a Window and hiding a lobby
+     * LOBBY - creates normal lobby
+     * HOST - creates Host Lobby
+     * JOIN - when other player Join calling playerJoin in lobby
+     * QUIT - when other player quits game it quit your game too
+     * COLOR - call color Tile in Window
+     * NEXT - call nextPlayerTurn in Window
+     * PLAYERCOLOR - call setCurrentPlayer in Window
+     * WIN - call win in Window
+     * Exits when loses connection with Player
+     */
     private void play(){
         String response;
         while(in.hasNextLine()){
@@ -79,11 +123,14 @@ public  class Client {
             else if (response.startsWith("WIN")){
                 var1.win(response);
             }
-            // TODO: 12/18/2021 tu sie przesyla od playera info jakies i bedzie wysylane do window zeby cos konkretnego wyswietlic
         }
         exit(-1);
     }
 
+    /**
+     * This method gets called from window to send specific info to player
+     * @param action message we want to send
+     */
     public static void action(String action){
         if (action.startsWith("MOVE") || action.startsWith("STOP") || action.startsWith("TRY") || action.startsWith("NEXT")){
             try{
@@ -109,6 +156,12 @@ public  class Client {
     }
 
 
+    /**
+     * Main method checking if we pass server IP in args
+     * Creates new client and calls method play
+     * @param args first argument is a server IP
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         if (args.length != 1){
             System.err.println("Pass the server IP as the sole command line argument");

@@ -1,38 +1,141 @@
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
+/**
+ * Game Manager class handling movemnt, sending messages to all players
+ */
 public class GameManager extends Board {
+    /**
+     * Checking if player has just moved as a double jump (jumped above other piece)
+     */
     boolean doubleJump = false;
+    /**
+     * Checking if we should make nextPlayer's turn
+     */
     boolean nextPlayer = false;
+    /**
+     * X parametr of a point a player has made double jump
+     */
     int x2 = 0;
+    /**
+     * Y parametr of a point a player has made double jump
+     */
     int y2 = 0;
+    /**
+     * Number of plaeyr's pieces in base
+     * (Base is a field where players has to move pieces in order to win)
+     */
     int piecesInBase = 0;
+    /**
+     * Size of baze
+     * (Base is a field where players has to move pieces in order to win)
+     */
     int baseSize = 0;
+    /**
+     * Number of all players' pieces in base
+     * (Base is a field where players has to move pieces in order to win)
+     */
     int allPiecesInBase = 0;
+    /**
+     * Number of blocked pieces (block piece cannot move anywhere)
+     */
     int blockedPieces = 0;
+    /**
+     * All players playing game list
+     */
     ArrayList<Player> players = new ArrayList<>();
+    /**
+     * Red base fields list
+     * (Base is a field where players has to move pieces in order to win)
+     */
     public ArrayList<Piece> redBase = new ArrayList();
+    /**
+     * Green base fields list
+     * (Base is a field where players has to move pieces in order to win)
+     */
     public ArrayList<Piece> greenBase = new ArrayList();
+    /**
+     * Blue base fields list
+     * (Base is a field where players has to move pieces in order to win)
+     */
     public ArrayList<Piece> blueBase = new ArrayList();
+    /**
+     * Yellow base fields list
+     * (Base is a field where players has to move pieces in order to win)
+     */
     public ArrayList<Piece> yellowBase = new ArrayList();
+    /**
+     * Green base fields list
+     * (Base is a field where players has to move pieces in order to win)
+     */
     public ArrayList<Piece> purpleBase = new ArrayList();
+    /**
+     * Cyan base fields list
+     * (Base is a field where players has to move pieces in order to win)
+     */
     public ArrayList<Piece> cyanBase = new ArrayList();
+    /**
+     * List of red blocked pieces
+     * (block piece cannot move anywhere)
+     */
     ArrayList<Piece> redBlocked = new ArrayList<>();
+    /**
+     * List of yellow blocked pieces
+     * (block piece cannot move anywhere)
+     */
     ArrayList<Piece> yellowBlocked = new ArrayList<>();
+    /**
+     * List of blue blocked pieces
+     * (block piece cannot move anywhere)
+     */
     ArrayList<Piece> blueBlocked = new ArrayList<>();
+    /**
+     * List of purple blocked pieces
+     * (block piece cannot move anywhere)
+     */
     ArrayList<Piece> purpleBlocked = new ArrayList<>();
+    /**
+     * List of green blocked pieces
+     * (block piece cannot move anywhere)
+     */
     ArrayList<Piece> greenBlocked = new ArrayList<>();
+    /**
+     * List of cyan blocked pieces
+     * (block piece cannot move anywhere)
+     */
     ArrayList<Piece> cyanBlocked = new ArrayList<>();
+    /**
+     * Current player id
+     */
     int currentPlayerId=1;
+    /**
+     * Array of winners id
+     */
     int[] winnersId;
+    /**
+     * Number of players who had won
+     */
     int winnersCount;
 
+    /**
+     * Send message to all players in a game
+     * @param com message we want to send
+     */
     public void communication(String com) {
         for (Player player : players) {
             player.sendMessage(com);
         }
     }
 
+    /**
+     * Method that handle movement
+     * TRY1 - its first click checking tiles we can move on
+     * and sending info to window via player - client to change color of tiles we can move on
+     * TRY2 - sendding move piece to move piece on all players board,  checking events like if player won
+     * and ending turn
+     * @param mess message we get to get necessary info
+     * @param currentPlayer current player
+     */
     public void moveHandler(String mess, Player currentPlayer) {
         String[] values = mess.split(";");
         int clickedX = Integer.parseInt(values[1]);
@@ -68,6 +171,9 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Checking events like win or blocking
+     */
     private void checkEvent() {
         if (piecesInBase == baseSize) {
             winnersId[winnersCount]=currentPlayerId;
@@ -81,6 +187,11 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Checking all players' pieces in base
+     * (Base is a field where players has to move pieces in order to win)
+     * @param base base we check
+     */
     private void gettingAllPiecesInBase(ArrayList<Piece> base) {
         allPiecesInBase = 0;
         for (Piece bas : base) {
@@ -92,6 +203,11 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Counting blocked pieces
+     * @param pieces list of pieces we will go through
+     * @param block list of pieces that block
+     */
     private void countingBlockedPieces(ArrayList<Piece> pieces, ArrayList<Piece> block) {
         blockedPieces = 0;
         for (Piece pie : pieces) {
@@ -103,6 +219,12 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Couting current player's pieces in base
+     * (Base is a field where players has to move pieces in order to win)
+     * @param pieces
+     * @param base
+     */
     private void countingPiecesinBase(ArrayList<Piece> pieces, ArrayList<Piece> base) {
         piecesInBase = 0;
         for (Piece pie : pieces) {
@@ -114,6 +236,12 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Method checking if player wants to move on correct tile
+     * @param currentPlayerNumber current player number
+     * @param pieces list of current player's pieces
+     * @param currentTile all tiles on board
+     */
     private void secondClick(int currentPlayerNumber, ArrayList<Piece> pieces, Tile currentTile) {
         if (currentTile.isAvailable) {
             for (Piece pie : pieces) {
@@ -150,6 +278,12 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Method checking if player clicked on his piece and coloring tiles he can move on
+     * @param currentPlayer current Player
+     * @param base field where players has to move pieces in order to win
+     * @param currentPiece piece our player has clicked on
+     */
     private void firstClick(Player currentPlayer, ArrayList<Piece> base, Piece currentPiece) {
         for (Tile obje : tiles) {
             if ((obje.x == currentPiece.x + 1 && obje.y == currentPiece.y ||
@@ -201,6 +335,11 @@ public class GameManager extends Board {
         currentPiece.isActive = true;
     }
 
+    /**
+     * Doing next turn staff
+     * @param mess message we send to all players
+     * @param currentPlayer current player
+     */
     public void nextTurn(String mess, Player currentPlayer) {
         String[] values = mess.split(";");
         int currentPlayerNumber = Integer.parseInt(values[1]);
@@ -209,6 +348,11 @@ public class GameManager extends Board {
         turnEnd(currentPlayer, pieces);
     }
 
+    /**
+     * Getting current player list of pieces
+     * @param currentPlayerNumber current player number
+     * @return list of pieces
+     */
     private ArrayList<Piece> getCurrentPlayerPieces(int currentPlayerNumber) {
         switch (currentPlayerNumber) {
             case 1 -> {
@@ -233,6 +377,12 @@ public class GameManager extends Board {
         return null;
     }
 
+    /**
+     * Getting current player list of base tiles
+     * (Base is a field where players has to move pieces in order to win)
+     * @param currentPlayerNumber current player number
+     * @return base
+     */
     private ArrayList<Piece> getCurrentPlayerEndBase(int currentPlayerNumber) {
         switch (currentPlayerNumber) {
             case 1 -> {
@@ -257,6 +407,11 @@ public class GameManager extends Board {
         return null;
     }
 
+    /**
+     * Getting current player blocked tiles
+     * @param currentPlayerNumber current player number
+     * @return blocked pieces
+     */
     private ArrayList<Piece> getCurrentPlayerBlockedTiles(int currentPlayerNumber) {
         switch (currentPlayerNumber) {
             case 1 -> {
@@ -281,6 +436,11 @@ public class GameManager extends Board {
         return null;
     }
 
+    /**
+     * Doing turn end stuff like makaing pieces isActive or tiles isTaken, isAvailabe on false
+     * @param currentPlayer currrent Player
+     * @param pieces current player list of pieces
+     */
     private void turnEnd(Player currentPlayer, ArrayList<Piece> pieces) {
         for (Piece pie : pieces) {
             if (pie.isActive) {
@@ -322,6 +482,16 @@ public class GameManager extends Board {
         nextPlayer = false;
     }
 
+    /**
+     * Sending to color a tiles when there is a double jump
+     * @param a1
+     * @param a2
+     * @param c1
+     * @param c2
+     * @param c3
+     * @param currentPlayer current Player
+     * @param currentPiece current Piece
+     */
     private void isTakenTileChecking(int a1, int a2, int c1, int c2, int c3, Player currentPlayer, Piece currentPiece) {
         for (Tile objec : tiles) {
             if (objec.x == a1 && objec.y == a2 && !objec.isTaken) {
@@ -331,6 +501,9 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Checking if there is a piece on tiles
+     */
     private void checkTakenTiles() {
         checkIsTaken(redPieces);
         checkIsTaken(yellowPieces);
@@ -340,6 +513,10 @@ public class GameManager extends Board {
         checkIsTaken(cyanPieces);
     }
 
+    /**
+     * Checking if there is a specific color piece on tiles
+     * @param pieces
+     */
     private void checkIsTaken(ArrayList<Piece> pieces) {
         for (Piece piece : pieces) {
             for (Tile tile : tiles) {
@@ -351,6 +528,12 @@ public class GameManager extends Board {
     }
 
 
+    /**
+     * Doing start game stuff
+     * Creates a virtual board
+     * Sending message to all players to start a game
+     * @param com message we sent
+     */
     public void startGame(String com) {
         String[] values = com.split(";");
         int numberOfPlayers = Integer.parseInt(values[1]);
@@ -360,6 +543,10 @@ public class GameManager extends Board {
         }
     }
 
+    /**
+     * Creating blocked tiles
+     * @param pieces tiles blocked list
+     */
     public void creatingBlockedTiles(ArrayList<Piece> pieces) {
         int id = 1;
         if (pieces == redBlocked) {
@@ -443,6 +630,11 @@ public class GameManager extends Board {
 
     }
 
+    /**
+     * Preparing virtual board
+     * Adding pieces on all lists (blocked, base, playerpieces)
+     * @param numberOfPlayers number of players
+     */
     private void prepareVirtualBoard(int numberOfPlayers) {
         createBoard();
 
@@ -486,6 +678,15 @@ public class GameManager extends Board {
     }
 
 
+    /**
+     * Creating base
+     * @param t
+     * @param j_1
+     * @param j_2
+     * @param k_1
+     * @param subs
+     * @param pieces
+     */
     private void creatingBase(int t, int j_1, int j_2, int k_1, int subs, ArrayList<Piece> pieces) {
         int id = 1;
         int i = subs;

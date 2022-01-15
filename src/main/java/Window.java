@@ -27,7 +27,6 @@ public class Window extends Board implements ActionListener {
    * First choose in menu.
    */
   private final MenuItem i7;
-  private final Label myLabel;
   /**
    * MenuBar, which is on the top of the window.
    */
@@ -423,7 +422,7 @@ public class Window extends Board implements ActionListener {
   public Window(int numberOfPlayers, int playerId) {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("Trylma");
-    myLabel = new Label("Start", 1);
+    Label myLabel = new Label("Start", 1);
     myMenu = new MenuBar();
     menu3 = new Menu("Pomoc");
     myMenu.add(this.menu3);

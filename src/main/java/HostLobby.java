@@ -3,10 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class making Host Lobby GUI extending lobby
+ */
 public class HostLobby extends Lobby implements ActionListener {
 
+  /**
+   * Button when clicked, send message to start a game
+   */
   JButton button = new JButton("Rozpocznij Gre");
 
+  /**
+   * Host Lobby Constructor, creating GUI
+   * Adding Action Listener on button to call method action in Client
+   */
   public HostLobby() {
     JPanel panel = new JPanel();
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -23,11 +33,10 @@ public class HostLobby extends Lobby implements ActionListener {
     });
   }
 
-  public static void main(String[] args){
-    HostLobby lobby = new HostLobby();
-  }
-
-  // TODO: 1/6/2022 nmwm czy to musi byc trzeba ogarnac ocb tutaj piotrek
+  /**
+   * Action performed method
+   * @param e ActionEvent
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
   }
