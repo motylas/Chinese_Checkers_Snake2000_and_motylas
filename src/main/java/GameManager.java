@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 /**
- * Game Manager class handling movemnt, sending messages to all players
+ * Game Manager class handling movement, sending messages to all players
  */
 public class GameManager extends Board {
     /**
@@ -297,22 +297,22 @@ public class GameManager extends Board {
             }
             if (!doubleJump || (doubleJump && currentPiece.x == x2 && currentPiece.y == y2)) {
                 if (obje.x == currentPiece.x + 1 && obje.y == currentPiece.y && obje.isTaken) {
-                    isTakenTileChecking(currentPiece.x + 2, currentPiece.y, currentPiece.R, currentPiece.G, currentPiece.B, currentPlayer, currentPiece);
+                    isTakenTileChecking(currentPiece.x + 2, currentPiece.y, currentPlayer, currentPiece);
                 }
                 if (obje.x == currentPiece.x - 1 && obje.y == currentPiece.y && obje.isTaken) {
-                    isTakenTileChecking(currentPiece.x - 2, currentPiece.y, currentPiece.R, currentPiece.G, currentPiece.B, currentPlayer, currentPiece);
+                    isTakenTileChecking(currentPiece.x - 2, currentPiece.y, currentPlayer, currentPiece);
                 }
                 if (obje.x == currentPiece.x + 1 && obje.y == currentPiece.y - 1 && obje.isTaken) {
-                    isTakenTileChecking(currentPiece.x + 2, currentPiece.y - 2, currentPiece.R, currentPiece.G, currentPiece.B, currentPlayer, currentPiece);
+                    isTakenTileChecking(currentPiece.x + 2, currentPiece.y - 2, currentPlayer, currentPiece);
                 }
                 if (obje.x == currentPiece.x - 1 && obje.y == currentPiece.y + 1 && obje.isTaken) {
-                    isTakenTileChecking(currentPiece.x - 2, currentPiece.y + 2, currentPiece.R, currentPiece.G, currentPiece.B, currentPlayer, currentPiece);
+                    isTakenTileChecking(currentPiece.x - 2, currentPiece.y + 2, currentPlayer, currentPiece);
                 }
                 if (obje.x == currentPiece.x && obje.y == currentPiece.y + 1 && obje.isTaken) {
-                    isTakenTileChecking(currentPiece.x, currentPiece.y + 2, currentPiece.R, currentPiece.G, currentPiece.B, currentPlayer, currentPiece);
+                    isTakenTileChecking(currentPiece.x, currentPiece.y + 2, currentPlayer, currentPiece);
                 }
                 if (obje.x == currentPiece.x && obje.y == currentPiece.y - 1 && obje.isTaken) {
-                    isTakenTileChecking(currentPiece.x, currentPiece.y - 2, currentPiece.R, currentPiece.G, currentPiece.B, currentPlayer, currentPiece);
+                    isTakenTileChecking(currentPiece.x, currentPiece.y - 2, currentPlayer, currentPiece);
                 }
             }
             for (Piece bas1 : base) {
@@ -484,15 +484,12 @@ public class GameManager extends Board {
 
     /**
      * Sending to color a tiles when there is a double jump
-     * @param a1
-     * @param a2
-     * @param c1
-     * @param c2
-     * @param c3
+     * @param a1 used to compare to objec.x
+     * @param a2 used to compare to objec.y
      * @param currentPlayer current Player
      * @param currentPiece current Piece
      */
-    private void isTakenTileChecking(int a1, int a2, int c1, int c2, int c3, Player currentPlayer, Piece currentPiece) {
+    private void isTakenTileChecking(int a1, int a2, Player currentPlayer, Piece currentPiece) {
         for (Tile objec : tiles) {
             if (objec.x == a1 && objec.y == a2 && !objec.isTaken) {
                 objec.isAvailable = true;
